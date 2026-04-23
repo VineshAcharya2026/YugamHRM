@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user profiles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "candidate"] },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Resume": {
+      "title": "Resume",
+      "description": "Candidate resume data for templates",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "personal": { "type": "object" },
+        "education": { "type": "array" },
+        "experience": { "type": "array" },
+        "skills": { "type": "array" },
+        "summary": { "type": "string" },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "Uploaded documents/files",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "url": { "type": "string" },
+        "uploadedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "url"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/resumes/{resumeId}": {
+      "schema": "Resume",
+      "description": "Candidate structured resume data"
+    },
+    "/documents/{docId}": {
+      "schema": "Document",
+      "description": "Uploaded document metadata"
+    }
+  }
+}
