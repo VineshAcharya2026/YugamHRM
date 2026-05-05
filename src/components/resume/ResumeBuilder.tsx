@@ -1,390 +1,237 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import { ResumeTemplate } from './ResumeTemplate';
-import { Save, Download, Plus, Trash2, ChevronRight, ChevronLeft, Eye } from 'lucide-react';
+import { firestoreErrorMessage } from '../../lib/firestoreErrors';
 import { motion, AnimatePresence } from 'motion/react';
+import { Download, FileText, Layout, Save } from 'lucide-react';
+import { cn } from '../../lib/utils';
+import { buildResumeFirestorePayload, loadResumeFromFirestoreDoc } from '../../lib/resumeProPersistence';
+import { exportHtmlNodeToPdf, pickPdfSourceElement } from '../../lib/exportResumePdf';
+import type { ResumeData, TemplateId } from './pro/types';
+import { createEmptyResumeData } from './pro/constants';
+import ResumeForm from './pro/ResumeForm';
+import ResumePreview from './pro/ResumePreview';
+import TemplateSelector from './pro/TemplateSelector';
+
+type BuilderPage = 'templates' | 'editor';
 
 export const ResumeBuilder: React.FC = () => {
-  const { user } = useAuth();
-  const [step, setStep] = useState(1);
+  const { user, profile } = useAuth();
+  const [page, setPage] = useState<BuilderPage>('editor');
+  const [data, setData] = useState<ResumeData>(() => createEmptyResumeData());
+  const [templateId, setTemplateId] = useState<TemplateId>('modern');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const [banner, setBanner] = useState<{ tone: 'ok' | 'err'; text: string } | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  /** Full-size preview without parent `transform` — html2canvas is unreliable on scaled nodes. */
+  const pdfCaptureRef = useRef<HTMLDivElement>(null);
 
-  const { register, control, handleSubmit, reset, watch } = useForm({
-    defaultValues: {
-      personal: { fullName: '', email: '', phone: '', location: '', tagline: '', linkedin: '' },
-      summary: '',
-      experience: [{ company: '', position: '', startDate: '', endDate: '', description: '' }],
-      education: [{ school: '', degree: '', startDate: '', endDate: '' }],
-      skills: [''],
+  const load = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const snap = await getDoc(doc(db, 'resumes', user.uid));
+      const raw = snap.exists() ? (snap.data() as Record<string, unknown>) : undefined;
+      const { templateId: tid, data: d } = loadResumeFromFirestoreDoc(raw, { fallbackEmail: profile?.email ?? user.email });
+      setTemplateId(tid);
+      setData(d);
+    } catch (err) {
+      console.error('Resume load:', err);
+      setBanner({ tone: 'err', text: firestoreErrorMessage(err) });
+    } finally {
+      setLoading(false);
     }
-  });
-
-  const { fields: expFields, append: appendExp, remove: removeExp } = useFieldArray({ control, name: "experience" as const });
-  const { fields: eduFields, append: appendEdu, remove: removeEdu } = useFieldArray({ control, name: "education" as const });
-  const { fields: skillFields, append: appendSkill, remove: removeSkill } = useFieldArray({ control, name: "skills" as any });
+  }, [user, profile?.email]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!user) return;
-      try {
-        const docRef = doc(db, 'resumes', user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          reset(docSnap.data());
-        }
-      } catch (err) {
-        console.error("Fetch Data Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [user, reset]);
+    void load();
+  }, [load]);
 
-  const onSave = async (data: any) => {
+  const onSave = async () => {
     if (!user) return;
     setSaving(true);
+    setBanner(null);
     try {
-      await setDoc(doc(db, 'resumes', user.uid), {
-        ...data,
-        userId: user.uid,
-        lastUpdated: new Date().toISOString()
-      });
-      alert('Data synchronized successfully!');
-    } catch (error) {
-      console.error(error);
+      await setDoc(doc(db, 'resumes', user.uid), buildResumeFirestorePayload(user.uid, templateId, data));
+      setBanner({ tone: 'ok', text: 'Resume saved to the cloud.' });
+      window.setTimeout(() => setBanner(null), 4000);
+    } catch (err) {
+      console.error('Resume save:', err);
+      setBanner({ tone: 'err', text: firestoreErrorMessage(err) });
     } finally {
       setSaving(false);
     }
   };
 
-  const formData = watch();
-  
-  // Memoize the document to prevent unnecessary re-renders of the engine
-  const resumeDocument = useMemo(() => <ResumeTemplate data={formData} />, [formData]);
+  const handleDownloadPdf = async () => {
+    if (!user) return;
+    const source = pickPdfSourceElement(pdfCaptureRef, previewRef);
+    if (!source) {
+      setBanner({ tone: 'err', text: 'Preview not ready. Open the editor tab and try again.' });
+      return;
+    }
+    setPdfBusy(true);
+    setBanner(null);
+    try {
+      const slug = (data.personalInfo.fullName || 'resume').toLowerCase().replace(/\s+/g, '-');
+      await exportHtmlNodeToPdf(source, slug);
+    } catch (err) {
+      console.error('PDF export:', err);
+      const hint = err instanceof Error && err.message ? err.message : '';
+      setBanner({
+        tone: 'err',
+        text:
+          hint && hint.length < 180
+            ? `Could not generate PDF. ${hint}`
+            : 'Could not generate PDF. Try again; if it keeps failing, remove external photos or use another browser.',
+      });
+    } finally {
+      setPdfBusy(false);
+    }
+  };
 
-  if (loading) return <div className="animate-pulse col-header font-bold text-xs uppercase tracking-[0.2em] p-10">Starting Resume Builder...</div>;
+  if (loading) {
+    return (
+      <div className="col-header animate-pulse p-10 text-xs font-bold uppercase tracking-[0.2em] text-brand-fg-muted">
+        Loading resume builder…
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 font-sans max-w-6xl mx-auto">
-      <div className="flex justify-between items-center bg-white/50 backdrop-blur-md p-1.5 rounded-2xl border border-black/5 shadow-sm">
-        <div className="flex space-x-1 overflow-x-auto scrollbar-none">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <button 
-              key={i}
+    <div className="mx-auto max-w-[1600px] space-y-6 font-sans">
+      <div className="flex flex-col gap-4 border-b border-windows-border pb-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight text-brand-fg">Resume builder</h2>
+          <p className="mt-1 text-xs font-medium uppercase tracking-widest text-brand-fg-muted">Templates, live preview, cloud save</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex rounded-xl border border-windows-border bg-brand-panel p-1 shadow-sm">
+            <button
               type="button"
-              onClick={() => setStep(i)}
-              className={`px-6 py-2 rounded-lg text-xs font-bold transition-all ${
-                step === i 
-                  ? 'bg-windows-accent text-white shadow-md' 
-                  : step > i 
-                    ? 'bg-green-500/10 text-green-600' 
-                    : 'text-black/40 hover:bg-black/5'
-              }`}
+              onClick={() => setPage('templates')}
+              className={cn(
+                'flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition-all',
+                page === 'templates' ? 'fluent-button-primary shadow-md' : 'text-brand-fg-muted hover:bg-brand-surface-hover',
+              )}
             >
-              STEP 0{i}
+              <Layout className="h-4 w-4" />
+              Templates
             </button>
-          ))}
+            <button
+              type="button"
+              onClick={() => setPage('editor')}
+              className={cn(
+                'flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition-all',
+                page === 'editor' ? 'fluent-button-primary shadow-md' : 'text-brand-fg-muted hover:bg-brand-surface-hover',
+              )}
+            >
+              <FileText className="h-4 w-4" />
+              Editor
+            </button>
+          </div>
+          {page === 'editor' && (
+            <>
+              <button
+                type="button"
+                onClick={() => void onSave()}
+                disabled={saving}
+                className="windows-button-secondary flex items-center gap-2 text-xs py-2.5 px-4 disabled:opacity-50"
+              >
+                <Save className="w-4 h-4 opacity-60" />
+                {saving ? 'Saving…' : 'Save to cloud'}
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleDownloadPdf()}
+                disabled={pdfBusy}
+                className="fluent-button-primary flex items-center gap-2 px-5 py-2.5 text-xs shadow-lg shadow-brand-cyan/20 disabled:opacity-50"
+              >
+                <Download className="w-3.5 h-3.5" />
+                {pdfBusy ? 'Building PDF…' : 'Download PDF'}
+              </button>
+            </>
+          )}
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSave)} className="space-y-6">
-        <AnimatePresence mode="wait">
-          {step === 1 && (
-            <motion.div 
-              key="step1"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="windows-card p-10 space-y-8"
-            >
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight mb-1">Personal Details</h2>
-                <p className="text-xs font-medium opacity-40 uppercase tracking-widest">Your basic contact information</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">Full Name</label>
-                  <input {...register('personal.fullName')} className="windows-input w-full" placeholder="John Doe" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">Professional Tagline</label>
-                  <input {...register('personal.tagline')} className="windows-input w-full" placeholder="Full Stack Cloud Engineer" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">Email</label>
-                  <input {...register('personal.email')} className="windows-input w-full" placeholder="john@yugamcloud.com" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">Phone</label>
-                  <input {...register('personal.phone')} className="windows-input w-full" placeholder="+91 98765 43210" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">Location</label>
-                  <input {...register('personal.location')} className="windows-input w-full" placeholder="Bangalore, IN" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-black/60 px-1 uppercase tracking-tighter">LinkedIn URL</label>
-                  <input {...register('personal.linkedin')} className="windows-input w-full" placeholder="linkedin.com/in/johndoe" />
-                </div>
-              </div>
-            </motion.div>
+      {banner && (
+        <div
+          className={cn(
+            'rounded-lg border px-4 py-3 text-sm',
+            banner.tone === 'ok'
+              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-800'
+              : 'border-red-500/30 bg-red-500/10 text-red-800',
           )}
-
-          {step === 2 && (
-            <motion.div 
-              key="step2"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="windows-card p-10 space-y-6"
-            >
-               <div>
-                <h2 className="text-2xl font-bold tracking-tight mb-1">Executive Summary</h2>
-                <p className="text-xs font-medium opacity-40 uppercase tracking-widest">High-level professional overview</p>
-              </div>
-              <textarea 
-                {...register('summary')} 
-                rows={10}
-                className="windows-input w-full resize-none leading-relaxed"
-                placeholder="Briefly describe your career goals, key achievements, and unique value proposition..."
-              />
-            </motion.div>
-          )}
-
-          {step === 3 && (
-            <motion.div 
-              key="step3"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="space-y-6"
-            >
-              <div className="flex justify-between items-center px-2">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight mb-1">Work History</h2>
-                  <p className="text-xs font-medium opacity-40 uppercase tracking-widest">Your past job roles</p>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => appendExp({ company: '', position: '', startDate: '', endDate: '', description: '' })}
-                  className="windows-button-secondary flex items-center space-x-2 text-xs"
-                >
-                  <Plus size={14} /> <span>Add Position</span>
-                </button>
-              </div>
-              {expFields.map((field, index) => (
-                <div key={field.id} className="windows-card p-6 space-y-4 relative group">
-                  <button 
-                    onClick={() => removeExp(index)} 
-                    className="absolute top-4 right-4 p-2 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Company</label>
-                      <input {...register(`experience.${index}.company`)} className="windows-input w-full" />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Position</label>
-                      <input {...register(`experience.${index}.position`)} className="windows-input w-full" />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Period</label>
-                      <div className="flex items-center space-x-2">
-                        <input {...register(`experience.${index}.startDate`)} placeholder="Start" className="windows-input w-full" />
-                        <span className="opacity-20">-</span>
-                        <input {...register(`experience.${index}.endDate`)} placeholder="End" className="windows-input w-full" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Responsibilities</label>
-                    <textarea 
-                      {...register(`experience.${index}.description`)} 
-                      className="windows-input w-full h-24 leading-relaxed"
-                    />
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          )}
-
-          {step === 4 && (
-            <motion.div 
-              key="step4"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="space-y-6"
-            >
-              <div className="flex justify-between items-center px-2">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight mb-1">Education</h2>
-                  <p className="text-xs font-medium opacity-40 uppercase tracking-widest">Your schools and certificates</p>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => appendEdu({ school: '', degree: '', startDate: '', endDate: '' })}
-                  className="windows-button-secondary flex items-center space-x-2 text-xs"
-                >
-                  <Plus size={14} /> <span>Add Education</span>
-                </button>
-              </div>
-              {eduFields.map((field, index) => (
-                <div key={field.id} className="windows-card p-6 grid grid-cols-1 md:grid-cols-2 gap-4 relative group">
-                  <button onClick={() => removeEdu(index)} className="absolute top-4 right-4 p-2 rounded-lg text-red-500 opacity-0 group-hover:opacity-100 hover:bg-red-50 transition-all">
-                    <Trash2 size={16} />
-                  </button>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">School / University</label>
-                    <input {...register(`education.${index}.school`)} className="windows-input w-full" />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Degree / Specialization</label>
-                    <input {...register(`education.${index}.degree`)} className="windows-input w-full" />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Start Date</label>
-                    <input {...register(`education.${index}.startDate`)} className="windows-input w-full" />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold opacity-40 uppercase tracking-tighter px-1">Completion Date</label>
-                    <input {...register(`education.${index}.endDate`)} className="windows-input w-full" />
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          )}
-
-          {step === 5 && (
-            <motion.div 
-              key="step5"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              className="space-y-8"
-            >
-              <div className="windows-card p-10 space-y-8">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="text-2xl font-bold tracking-tight mb-1">Skills & Export</h2>
-                    <p className="text-xs font-medium opacity-40 uppercase tracking-widest">List your skills and get your file</p>
-                  </div>
-                  <button 
-                    type="button" 
-                    onClick={() => (appendSkill as any)('')}
-                    className="windows-button-secondary flex items-center space-x-2 text-xs"
-                  >
-                    <Plus size={14} /> <span>Add Skill</span>
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                  {skillFields.map((field, index) => (
-                    <div key={field.id} className="relative group">
-                      <input {...register(`skills.${index}`)} className="windows-input w-full pr-8" placeholder="Skill name" />
-                      <button 
-                        onClick={() => removeSkill(index)} 
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-red-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                      >
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-12 p-8 windows-card bg-windows-accent/5 border-dashed border-2 border-windows-accent/20 flex flex-col items-center justify-center space-y-6 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-windows-accent flex items-center justify-center text-white shadow-xl rotate-3">
-                    <Download size={32} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#1f1f1f]">Your PDF is Ready</h3>
-                    <p className="text-sm opacity-50 mt-1">Your info is now in the job template.</p>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4 items-center">
-                    <PDFDownloadLink 
-                      key={JSON.stringify(formData)} // Key-stabilize to force refresh when data changes
-                      document={resumeDocument} 
-                      fileName={`${formData.personal.fullName || 'Resume'}_YugamCloud.pdf`}
-                      className="windows-button-primary bg-[#1f1f1f] text-white px-10 py-3 shadow-lg flex items-center space-x-3"
-                    >
-                      {({ loading }: any) => (
-                        <>
-                          {loading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white animate-spin rounded-full" /> : <Download size={20} />}
-                          <span>{loading ? 'Making PDF...' : 'Download Resume'}</span>
-                        </>
-                      )}
-                    </PDFDownloadLink>
-
-                    <button 
-                      type="button"
-                      onClick={() => setShowPreview(!showPreview)}
-                      className="windows-button-secondary flex items-center space-x-2 px-8 py-3"
-                    >
-                      <Eye size={18} />
-                      <span>{showPreview ? 'Hide View' : 'Live Preview'}</span>
-                    </button>
-                  </div>
-
-                  <AnimatePresence>
-                    {showPreview && (
-                      <motion.div 
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 600 }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="w-full mt-8 rounded-xl overflow-hidden shadow-inner border border-black/10"
-                      >
-                        <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
-                          {resumeDocument}
-                        </PDFViewer>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="flex justify-between items-center pt-8 border-t border-black/5">
-          <button 
-            type="button"
-            onClick={() => setStep(s => Math.max(1, s - 1))}
-            disabled={step === 1}
-            className="flex items-center space-x-2 text-sm font-bold text-black/40 hover:text-black/80 disabled:opacity-0 transition-all"
-          >
-            <ChevronLeft size={20} /> <span>Back</span>
-          </button>
-          
-          <div className="flex space-x-4">
-            <button 
-              type="submit"
-              disabled={saving}
-              className="windows-button-secondary flex items-center space-x-2"
-            >
-              <Save size={18} className="opacity-50" /> 
-              <span>{saving ? 'Syncing...' : 'Save Draft'}</span>
-            </button>
-            {step < 5 && (
-              <button 
-                type="button"
-                onClick={() => setStep(s => Math.min(5, s + 1))}
-                className="windows-button-primary flex items-center space-x-2 px-8"
-              >
-                <span>Continue</span> <ChevronRight size={18} />
-              </button>
-            )}
-          </div>
+          role="status"
+        >
+          {banner.text}
         </div>
-      </form>
+      )}
+
+      <AnimatePresence mode="wait">
+        {page === 'templates' ? (
+          <motion.div
+            key="templates"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="space-y-6"
+          >
+            <div className="windows-card p-8">
+              <h3 className="mb-1 text-lg font-bold text-brand-fg">Choose a layout</h3>
+              <p className="mb-6 text-sm text-brand-fg-muted">Pick a template, then switch to Editor to fill details and export.</p>
+              <TemplateSelector
+                current={templateId}
+                onSelect={(id) => {
+                  setTemplateId(id);
+                  setPage('editor');
+                }}
+              />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="editor"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="grid grid-cols-1 xl:grid-cols-[1fr_minmax(380px,480px)] gap-8 items-start"
+          >
+            <div className="windows-card p-6 sm:p-8 min-w-0">
+              <ResumeForm data={data} setData={setData} />
+            </div>
+
+            <div className="xl:sticky xl:top-4 space-y-3">
+              <div
+                ref={pdfCaptureRef}
+                className="fixed top-0 z-0 w-[210mm] max-w-none pointer-events-none"
+                style={{ left: -10000 }}
+                aria-hidden
+              >
+                <ResumePreview data={data} template={templateId} />
+              </div>
+              <div className="flex items-center justify-between px-1">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-brand-fg-muted">Live preview</span>
+                <span className="text-[10px] font-bold uppercase text-brand-fg-disabled">{templateId.replace(/-/g, ' ')}</span>
+              </div>
+              <div className="flex max-h-[min(78vh,900px)] flex-col items-center overflow-hidden overflow-y-auto rounded-xl border border-windows-border bg-brand-page p-4 no-scrollbar sm:p-6">
+                <div className="origin-top scale-[0.38] sm:scale-[0.42] md:scale-[0.48] xl:scale-[0.52] transition-transform shadow-2xl">
+                  <div ref={previewRef}>
+                    <ResumePreview data={data} template={templateId} />
+                  </div>
+                </div>
+              </div>
+              <p className="px-2 text-center text-[10px] text-brand-fg-muted">
+                PDF export uses a full-size copy of the preview (no scaling). Save to cloud before leaving the page.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

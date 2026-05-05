@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  
+  --color-mica: #f3f3f3;
+  --color-fluent-active: #0067b8;
+  --color-fluent-hover: rgba(0, 0, 0, 0.05);
+  --color-fluent-border: rgba(0, 0, 0, 0.08);
+}
+
+body {
+  @apply font-sans bg-[#f3f3f3] text-[#1b1b1b];
+}
+
+.mica-bg {
+  background: rgba(243, 243, 243, 0.85);
+  backdrop-filter: blur(20px);
+}
+
+.acrylic {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.fluent-card {
+  @apply bg-white border border-fluent-border rounded-xl shadow-sm;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fluent-card:hover {
+  @apply shadow-md border-transparent;
+  transform: translateY(-2px);
+}
+
+.fluent-button-primary {
+  @apply bg-fluent-active text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 active:scale-95 transition-all;
+}
+
+/* Hide scrollbars for a cleaner Look */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

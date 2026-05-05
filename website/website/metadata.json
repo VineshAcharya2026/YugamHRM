@@ -1,0 +1,8 @@
+{
+  "name": "YugamCloud.ai - IT Training & 100% Placement",
+  "description": "Premium IT training institute offering courses in Snowflake, Agentic AI, SAP ABAP, and HANA with a 100% placement guarantee.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}

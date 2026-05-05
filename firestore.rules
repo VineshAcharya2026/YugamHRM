@@ -14,10 +14,12 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
     
+    // Master admins: full read/write; keep emails in sync with src/lib/masterAdmin.ts
     function isAdmin() {
       return isSignedIn() && (
-        getUserData().role == 'admin' || 
-        request.auth.token.email == 'vineshjm@gmail.com'
+        getUserData().role == 'admin' ||
+        request.auth.token.email == 'vineshjm@gmail.com' ||
+        request.auth.token.email == 'sindhu@yugamcloud.online'
       );
     }
 
@@ -43,10 +45,25 @@ service cloud.firestore {
     match /documents/{docId} {
       allow read: if isOwner(resource.data.userId) || isAdmin();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if (isOwner(resource.data.userId) || isAdmin()) && request.resource.data.userId == resource.data.userId;
       allow delete: if isOwner(resource.data.userId) || isAdmin();
     }
 
     match /candidates/{candidateId} {
+      allow read: if isAdmin() || isOwner(candidateId);
+      allow create: if isAdmin() || (
+        isOwner(candidateId) &&
+        request.resource.data.userId == request.auth.uid
+      );
+      allow update: if isAdmin() || (
+        isOwner(candidateId) &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == resource.data.userId
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
       allow read, create, update, delete: if isAdmin();
     }
 

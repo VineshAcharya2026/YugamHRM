@@ -1,8 +1,12 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "website/website/out",
+    "cleanUrls": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+    "rewrites": [
+      { "source": "/hrm", "destination": "/hrm/index.html" },
+      { "source": "/hrm/**", "destination": "/hrm/index.html" }
+    ]
   },
   "firestore": {
     "rules": "firestore.rules"
