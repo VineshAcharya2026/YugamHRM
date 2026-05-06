@@ -29,11 +29,11 @@ const Navbar: React.FC<Props> = ({ isHrmContext = false }) => {
   const showMarketingNav = !isHrmContext && !pathname?.startsWith('/hrm');
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#2A3547] bg-[#1A2230]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
         <Link
           href="/"
-          className="flex min-w-0 shrink-0 items-center gap-3 rounded-xl bg-[#1A2230] px-2 py-1"
+          className="flex min-w-0 shrink-0 items-center gap-3"
           aria-label="YugamCloud.ai home"
         >
           <SiteBrandMark className="h-12 w-auto max-w-[min(280px,72vw)] sm:h-14 md:h-16 md:max-w-[320px]" priority />
@@ -50,7 +50,7 @@ const Navbar: React.FC<Props> = ({ isHrmContext = false }) => {
               <a
                 key={item.label + item.href}
                 href={marketingNavHref(item.href)}
-                className="rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-200 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 transition hover:bg-brand-50 hover:text-brand-800"
               >
                 {item.label}
               </a>
@@ -62,7 +62,7 @@ const Navbar: React.FC<Props> = ({ isHrmContext = false }) => {
           {showMarketingNav && !isHrmContext ? (
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-lg border border-white/20 p-2.5 text-white lg:hidden"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-200 p-2.5 text-slate-800 lg:hidden"
               aria-expanded={menuOpen}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               onClick={() => setMenuOpen((o) => !o)}
@@ -84,13 +84,13 @@ const Navbar: React.FC<Props> = ({ isHrmContext = false }) => {
       </nav>
 
       {showMarketingNav && !isHrmContext && menuOpen ? (
-        <div className="border-t border-white/10 bg-[#1A2230] px-4 py-3 lg:hidden">
+        <div className="border-t border-slate-100 bg-white px-4 py-3 lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-0.5">
             {TRAINING_NAV_ITEMS.map((item) => (
               <a
                 key={item.label + item.href}
                 href={marketingNavHref(item.href)}
-                className="rounded-lg px-3 py-3 text-sm font-semibold text-slate-100 hover:bg-white/10"
+                className="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-brand-50"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.label}
