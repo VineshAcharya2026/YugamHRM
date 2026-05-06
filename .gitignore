@@ -2,6 +2,11 @@ node_modules/
 build/
 dist/
 coverage/
+.firebase/
+website/website/.next/
+website/website/out/
+website/website/tsconfig.tsbuildinfo
+YugamHRM/dist/
 .DS_Store
 *.log
 .env*
