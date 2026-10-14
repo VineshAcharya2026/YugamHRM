@@ -1,24 +1,24 @@
 import Hero from '@/components/marketing/Hero';
-import Welcome from '@/components/marketing/Welcome';
-import Services from '@/components/marketing/Services';
-import IntegrationsStrip from '@/components/marketing/IntegrationsStrip';
-import FeatureShowcase from '@/components/marketing/FeatureShowcase';
-import Testimonials from '@/components/marketing/Testimonials';
 import Stats from '@/components/marketing/Stats';
-import HrmCandidateIntake from '@/components/marketing/HrmCandidateIntake';
+import Services from '@/components/marketing/Services';
+import FeaturedPrograms from '@/components/marketing/FeaturedPrograms';
+import WhyChooseUs from '@/components/marketing/WhyChooseUs';
+import Placements from '@/components/marketing/Placements';
+import FAQ from '@/components/marketing/FAQ';
+import AdmissionOffer from '@/components/marketing/AdmissionOffer';
 import ContactForm from '@/components/marketing/ContactForm';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Welcome />
-      <Services />
-      <IntegrationsStrip />
-      <FeatureShowcase />
-      <Testimonials />
       <Stats />
-      <HrmCandidateIntake />
+      <Services />
+      <FeaturedPrograms />
+      <WhyChooseUs />
+      <Placements />
+      <FAQ />
+      <AdmissionOffer />
       <ContactForm />
     </>
   );

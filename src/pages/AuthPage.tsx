@@ -14,6 +14,7 @@ import { GoogleGIcon } from '../components/auth/GoogleGIcon';
 import { motion } from 'motion/react';
 import { Mail, Lock, ArrowRight, Shield, Sparkles } from 'lucide-react';
 import { getMarketingHomeHref } from '../lib/env';
+import { isStaffEmail } from '../lib/staffAccounts';
 import { SiteBrandMark } from '../components/brand/SiteBrandMark';
 import { cn } from '../lib/utils';
 
@@ -37,6 +38,14 @@ export const AuthPage: React.FC = () => {
         tone: 'form',
         title: 'Check your details',
         detail: validation,
+      });
+      return;
+    }
+    if (!isLogin && isStaffEmail(em)) {
+      setAuthError({
+        tone: 'form',
+        title: 'Staff account',
+        detail: 'This staff account is already issued. Sign in with the password you were given.',
       });
       return;
     }
@@ -221,8 +230,11 @@ export const AuthPage: React.FC = () => {
 
           <button onClick={handleGoogleSignIn} type="button" disabled={busy} className="hrm-auth-btn-google">
             <GoogleGIcon className="h-5 w-5 shrink-0" />
-            <span>{googleLoading ? 'Connecting…' : 'Google'}</span>
+            <span>{googleLoading ? 'Connecting…' : 'Google (candidates)'}</span>
           </button>
+          <p className="mt-3 text-center text-[11px] leading-relaxed text-brand-fg-muted">
+            Google sign-in is for candidates. Staff use the email and password issued for their desk.
+          </p>
 
           <p className="mt-8 text-center text-xs text-brand-fg-muted">
             {isLogin ? 'First time here?' : 'Already registered?'}{' '}

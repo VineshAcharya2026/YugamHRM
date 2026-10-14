@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Shield } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { DASHBOARD_NAV_ITEMS, filterDashboardNavItems, getDashboardNavLabel } from './dashboardNav';
+import { roleLabel as roleLabelFor } from '../../lib/staffAccounts';
 import { DashboardSidebar } from './DashboardSidebar';
 import { DashboardHeader } from './DashboardHeader';
 
@@ -10,17 +11,18 @@ export const DashboardLayout: React.FC<{
   activeTab: string;
   onTabChange: (id: string) => void;
 }> = ({ children, activeTab, onTabChange }) => {
-  const { profile, logout, isMaster } = useAuth();
+  const { profile, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const role = profile?.role;
 
   const filteredNavItems = useMemo(
-    () => filterDashboardNavItems(DASHBOARD_NAV_ITEMS, { role: profile?.role, isMaster }),
-    [profile?.role, isMaster],
+    () => filterDashboardNavItems(DASHBOARD_NAV_ITEMS, { role }),
+    [role],
   );
 
   const headerTitle = getDashboardNavLabel(DASHBOARD_NAV_ITEMS, activeTab);
   const avatarLetter = (profile?.displayName?.[0] || profile?.email?.[0] || 'U').toUpperCase();
-  const roleLabel = isMaster ? 'Master admin' : (profile?.role ?? '—').toString();
+  const roleLabel = roleLabelFor(role);
 
   const handleNavigate = (id: string) => {
     onTabChange(id);

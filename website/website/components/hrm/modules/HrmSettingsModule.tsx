@@ -191,7 +191,7 @@ const HrmSettingsModule: React.FC = () => {
 
       <div className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl">
         <div className="mb-4 flex items-center gap-2 text-slate-900">
-          <Building2 className="h-5 w-5 text-blue-600" />
+          <Building2 className="h-5 w-5 text-brand" />
           <h5 className="font-black">Company</h5>
         </div>
         {!apiReady ? (
@@ -219,7 +219,7 @@ const HrmSettingsModule: React.FC = () => {
             <input className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm" placeholder="CIN" value={companyForm.cin} onChange={(e) => setCompanyForm((p) => ({ ...p, cin: e.target.value }))} disabled={!canEdit || !apiReady} />
             {canEdit ? (
               <div className="md:col-span-2">
-                <button type="submit" disabled={saveCompany.isPending || !apiReady} className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60">Save company</button>
+                <button type="submit" disabled={saveCompany.isPending || !apiReady} className="rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60">Save company</button>
                 {saveCompany.isError ? <p className="mt-2 text-sm text-red-600">{(saveCompany.error as Error).message}</p> : null}
                 {saveCompany.isSuccess ? <p className="mt-2 text-sm text-emerald-700">{saveCompany.data.message}</p> : null}
               </div>
@@ -233,7 +233,7 @@ const HrmSettingsModule: React.FC = () => {
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl">
           <div className="mb-3 flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-blue-600" />
+            <Briefcase className="h-5 w-5 text-brand" />
             <h5 className="font-black text-slate-900">Departments</h5>
           </div>
           {!apiReady ? (
@@ -275,7 +275,7 @@ const HrmSettingsModule: React.FC = () => {
 
         <div className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl">
           <div className="mb-3 flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-blue-600" />
+            <Briefcase className="h-5 w-5 text-brand" />
             <h5 className="font-black text-slate-900">Designations</h5>
           </div>
           {!apiReady ? (
@@ -319,7 +319,7 @@ const HrmSettingsModule: React.FC = () => {
 
       <div className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl">
         <div className="mb-3 flex items-center gap-2">
-          <Shield className="h-5 w-5 text-blue-600" />
+          <Shield className="h-5 w-5 text-brand" />
           <h5 className="font-black text-slate-900">Roles (read-only)</h5>
         </div>
         {!apiReady ? (
@@ -352,7 +352,7 @@ const HrmSettingsModule: React.FC = () => {
 
       <div className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl">
         <div className="mb-3 flex items-center gap-2">
-          <Wallet className="h-5 w-5 text-blue-600" />
+          <Wallet className="h-5 w-5 text-brand" />
           <h5 className="font-black text-slate-900">Salary structures</h5>
         </div>
         <p className="mb-3 text-xs text-slate-500">Templates use default Indian salary splits; customize further in the database or future editor.</p>
@@ -393,7 +393,7 @@ const HrmSettingsModule: React.FC = () => {
                   type="button"
                   disabled={!salaryName.trim() || addSalary.isPending || !apiReady}
                   onClick={() => addSalary.mutate()}
-                  className="rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white disabled:opacity-50"
+                  className="rounded-xl bg-brand px-4 py-2 text-xs font-black text-white disabled:opacity-50"
                 >
                   Add structure
                 </button>

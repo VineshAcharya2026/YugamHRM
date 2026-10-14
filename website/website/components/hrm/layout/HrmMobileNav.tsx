@@ -19,7 +19,7 @@ export default function HrmMobileNav() {
               key={href}
               href={href}
               className={`flex min-w-[4.25rem] shrink-0 snap-start flex-col items-center gap-1 px-2 py-2.5 text-[9px] font-black uppercase tracking-wide transition-colors ${
-                active ? 'text-blue-600' : 'text-slate-500'
+                active ? 'text-brand' : 'text-slate-500'
               }`}
             >
               <Icon className="h-5 w-5 shrink-0" />

@@ -1,6 +1,6 @@
 {
-  "name": "YugamCloud.ai - IT Training & 100% Placement",
-  "description": "Premium IT training institute offering courses in Snowflake, Agentic AI, SAP ABAP, and HANA with a 100% placement guarantee.",
+  "name": "Softivox Tech - IT Training & Placement",
+  "description": "Softivox Tech is a Bengaluru training studio for Snowflake, agentic AI, SAP ABAP, Java full stack, and cloud, with placement support.",
   "requestFramePermissions": [
     "microphone"
   ],

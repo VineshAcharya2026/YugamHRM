@@ -1,14 +1,33 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Master email: keep in sync with `src/lib/masterAdmin.ts`
-    function isAdmin() {
-      return request.auth != null && (
-        request.auth.token.email == 'vineshjm@gmail.com' ||
-        request.auth.token.email == 'sindhu@yugamcloud.online' ||
-        (firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
-         firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin')
-      );
+    function isPasswordSignIn() {
+      return request.auth != null && request.auth.token.firebase.sign_in_provider == 'password';
+    }
+
+    function hasProfile() {
+      return request.auth != null
+        && firestore.exists(/databases/(default)/documents/users/$(request.auth.uid));
+    }
+
+    function userRole() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isStaffRole(role) {
+      return isPasswordSignIn() && hasProfile() && userRole() == role;
+    }
+
+    function isMaster() {
+      return isStaffRole('master') || (isPasswordSignIn() && hasProfile() && userRole() == 'admin');
+    }
+
+    function canWriteCandidates() {
+      return isMaster() || isStaffRole('hr') || isStaffRole('placements');
+    }
+
+    function canReadCandidates() {
+      return canWriteCandidates() || isStaffRole('operations') || isStaffRole('accounts') || isStaffRole('support');
     }
 
     function isSmallUserDoc() {
@@ -28,7 +47,6 @@ service firebase.storage {
         && request.resource.contentType == 'application/pdf';
     }
 
-    // User files: `documents/{uid}/...` from DocumentManager
     match /documents/{userId}/{allPaths=**} {
       allow read, delete: if request.auth != null && request.auth.uid == userId;
       allow create, update: if request.auth != null
@@ -36,11 +54,10 @@ service firebase.storage {
         && isSmallUserDoc();
     }
 
-    // HR resume vault: `resumes/{uploaderAdminUid}/...` from CandidateTracker
     match /resumes/{uploaderId}/{allPaths=**} {
-      allow read, delete: if isAdmin() && request.auth != null && request.auth.uid == uploaderId;
-      allow create, update: if isAdmin()
-        && request.auth != null
+      allow read: if canReadCandidates();
+      allow delete: if canWriteCandidates() && request.auth.uid == uploaderId;
+      allow create, update: if canWriteCandidates()
         && request.auth.uid == uploaderId
         && isAdminPdf();
     }

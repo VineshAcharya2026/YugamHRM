@@ -1,29 +1,22 @@
-'use client';
+import { cn } from '@/lib/utils';
 
 type Props = {
   className?: string;
-  /** When true, video preloads sooner (header / above-the-fold). */
+  /** Preload more eagerly when the mark is above the fold. */
   priority?: boolean;
+  /** Kept so existing callers compile. The logo is a fixed artwork. */
+  tone?: 'ink' | 'paper';
 };
 
-/**
- * Animated wordmark from `public/nknknknknk.mp4`.
- * Sizing comes from `className` (e.g. `h-12 w-auto max-w-[...]` in the navbar).
- */
-export function SiteBrandMark({ className = 'h-10 w-auto max-w-[240px]', priority }: Props) {
+export function SiteBrandMark({ className = '', priority }: Props) {
   return (
-    <video
-      className={`block shrink-0 object-contain object-left ${className}`}
-      autoPlay
-      muted
-      loop
-      playsInline
-      disablePictureInPicture
-      preload={priority ? 'auto' : 'metadata'}
-      poster="/yugamhrm.png"
-      aria-hidden
-    >
-      <source src="/nknknknknk.mp4" type="video/mp4" />
-    </video>
+    <img
+      src="/softivox-logo.jpg"
+      alt="Softivox Tech — Your Vision, Our Innovation."
+      width={640}
+      height={140}
+      className={cn('h-14 w-auto max-w-full object-contain object-left', className)}
+      {...(priority ? { fetchPriority: 'high' as const } : {})}
+    />
   );
 }

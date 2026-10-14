@@ -6,5 +6,4 @@ export const COURSE_SLUGS: string[] = [
   'fullstack',
   'python-ds',
   'devops-aws',
-  'digital-marketing',
 ];

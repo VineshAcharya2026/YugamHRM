@@ -27,16 +27,17 @@ const MODALITIES = [
 
 const Modalities: React.FC = () => {
   return (
-    <section id="internship" className="py-24 bg-white">
+    <section id="internship" className="bg-white py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Designed for All Your Training Needs</h2>
-          <p className="text-slate-500 mt-4 max-w-2xl mx-auto font-medium">End-to-end training and support for individuals and organizations.</p>
+        <div className="mb-12 max-w-2xl">
+          <p className="section-title">How you can learn</p>
+          <h2 className="heading-display text-3xl sm:text-4xl">Classroom, online, corporate, internship</h2>
+          <p className="mt-4 text-slate-600">Same curriculum. Pick the schedule that fits the week you already have.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {MODALITIES.map((item, idx) => (
-            <div key={idx} className="p-8 rounded-[2rem] bg-slate-50 hover:bg-white border border-transparent hover:border-blue-100 hover:shadow-xl transition-all group">
-              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-blue-600 mb-6 shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-colors">
+            <div key={idx} className="group rounded-3xl border border-ink/10 bg-paper p-8 transition hover:-translate-y-0.5 hover:border-brand/30 hover:bg-white hover:shadow-card">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-paper transition group-hover:bg-brand">
                 {item.icon}
               </div>
               <h4 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h4>

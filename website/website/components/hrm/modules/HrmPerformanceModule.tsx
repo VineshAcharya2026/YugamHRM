@@ -189,7 +189,7 @@ const HrmPerformanceModule: React.FC = () => {
           className="space-y-3 rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl"
         >
           <div className="flex items-center gap-2 text-slate-900">
-            <PlusCircle className="h-5 w-5 text-blue-600" />
+            <PlusCircle className="h-5 w-5 text-brand" />
             <h5 className="font-black">New review cycle</h5>
           </div>
           <input className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm" placeholder="Cycle name" value={cycleForm.name} onChange={(e) => setCycleForm((p) => ({ ...p, name: e.target.value }))} />
@@ -200,7 +200,7 @@ const HrmPerformanceModule: React.FC = () => {
           <button
             type="submit"
             disabled={cycleMut.isPending || !apiReady}
-            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+            className="rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
           >
             Create cycle
           </button>
@@ -230,7 +230,7 @@ const HrmPerformanceModule: React.FC = () => {
           className="space-y-3 rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl"
         >
           <div className="flex items-center gap-2 text-slate-900">
-            <Target className="h-5 w-5 text-blue-600" />
+            <Target className="h-5 w-5 text-brand" />
             <h5 className="font-black">New goal</h5>
           </div>
           <select className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm" value={goalForm.employeeId} onChange={(e) => setGoalForm((p) => ({ ...p, employeeId: e.target.value }))}>
@@ -276,7 +276,7 @@ const HrmPerformanceModule: React.FC = () => {
         className="space-y-3 rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl"
       >
         <div className="flex items-center gap-2 text-slate-900">
-          <Target className="h-5 w-5 text-blue-600" />
+          <Target className="h-5 w-5 text-brand" />
           <h5 className="font-black">New performance review</h5>
         </div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
@@ -308,7 +308,7 @@ const HrmPerformanceModule: React.FC = () => {
         <button
           type="submit"
           disabled={reviewMut.isPending || !apiReady}
-          className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+          className="rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
         >
           Create review
         </button>

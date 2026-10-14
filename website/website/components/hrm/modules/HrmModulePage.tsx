@@ -29,7 +29,7 @@ const HrmModulePage: React.FC<Props> = ({ title, isLive }) => {
       </p>
       <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
         <div className="flex items-center gap-2 text-sm font-bold text-slate-700">
-          <Clock3 className="h-4 w-4 text-blue-600" />
+          <Clock3 className="h-4 w-4 text-brand" />
           {isLive ? 'Live module workspace' : 'Coming soon module placeholder'}
         </div>
       </div>

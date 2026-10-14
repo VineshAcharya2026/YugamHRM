@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Mail, MessageCircle, MapPin, Send } from 'lucide-react';
-import { getWhatsAppLink } from '@/constants';
+import { Mail, MessageCircle, MapPin, Phone, Send } from 'lucide-react';
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, getWhatsAppLink } from '@/constants';
 
 const ContactForm: React.FC = () => {
   const handleWhatsApp = (e: React.FormEvent) => {
@@ -21,13 +21,13 @@ const ContactForm: React.FC = () => {
     <section id="contact" className="border-t border-slate-100 bg-white py-20 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="section-title">Contact</p>
-          <h2 className="heading-display mb-3 text-balance">Let&apos;s start a conversation</h2>
-          <p className="text-lg text-slate-600">Tell us about your background and goals — we&apos;ll route you to the right counselor.</p>
+          <p className="section-title">Inquiry</p>
+          <h2 className="heading-display mb-3 text-balance text-3xl sm:text-4xl">Get course info</h2>
+          <p className="text-lg text-slate-600">Tell us the program you want. We&apos;ll open WhatsApp with your note filled in.</p>
         </div>
 
         <div className="grid gap-10 overflow-hidden rounded-2xl border border-slate-200/90 bg-slate-50/50 shadow-card lg:grid-cols-12">
-          <div className="flex flex-col justify-between bg-brand p-8 text-white lg:col-span-4 lg:p-10">
+          <div className="flex flex-col justify-between bg-ink p-8 text-paper lg:col-span-4 lg:p-10">
             <div>
               <h3 className="mb-3 text-xl font-bold">Admissions desk</h3>
               <p className="mb-10 text-sm leading-relaxed text-white/90">
@@ -45,11 +45,24 @@ const ContactForm: React.FC = () => {
                 </li>
                 <li className="flex gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+                    <Phone className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/70">Phone</p>
+                    <a href={`tel:${CONTACT_PHONE_TEL}`} className="text-sm font-semibold hover:underline">
+                      {CONTACT_PHONE_DISPLAY}
+                    </a>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
                     <Mail className="h-5 w-5" />
                   </span>
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-white/70">Email</p>
-                    <p className="text-sm font-semibold">HR@yugamcloud.online</p>
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-sm font-semibold hover:underline">
+                      {CONTACT_EMAIL}
+                    </a>
                   </div>
                 </li>
                 <li className="flex gap-4">

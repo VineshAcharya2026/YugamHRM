@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
 
 const Testimonials: React.FC = () => {
   return (
-    <section id="case-studies" className="bg-[var(--surface-muted)] py-20 sm:py-24 lg:py-28">
+    <section id="case-studies" className="bg-white py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center lg:mb-16">
           <p className="section-title">Outcomes</p>

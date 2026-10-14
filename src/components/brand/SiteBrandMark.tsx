@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = {
   className?: string;
-  /** Preload more eagerly when above the fold (e.g. auth header). */
+  /** Preload more eagerly when the mark is above the fold. */
   priority?: boolean;
 };
 
@@ -11,24 +11,15 @@ function mediaUrl(file: string): string {
   return `${base}${file}`.replace(/\/{2,}/g, '/');
 }
 
-/**
- * Animated wordmark (`public/nknknknknk.mp4`).
- * Paths respect Vite `base` (e.g. `/hrm/`).
- */
-export const SiteBrandMark: React.FC<Props> = ({ className = 'h-10 w-auto max-w-[200px]', priority }) => {
+export const SiteBrandMark: React.FC<Props> = ({ className = 'h-10 w-auto max-w-[220px]', priority }) => {
   return (
-    <video
+    <img
+      src={mediaUrl('softivox-logo.jpg')}
+      alt="Softivox Tech — Your Vision, Our Innovation."
+      width={640}
+      height={140}
       className={`block shrink-0 object-contain object-left ${className}`}
-      autoPlay
-      muted
-      loop
-      playsInline
-      disablePictureInPicture
-      preload={priority ? 'auto' : 'metadata'}
-      poster={mediaUrl('yugamhrm.png')}
-      aria-hidden
-    >
-      <source src={mediaUrl('nknknknknk.mp4')} type="video/mp4" />
-    </video>
+      {...(priority ? { fetchPriority: 'high' as const } : {})}
+    />
   );
 };

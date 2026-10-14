@@ -10,20 +10,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        ink: '#161311',
+        paper: '#f6f1ea',
         brand: {
-          DEFAULT: '#00A8C9',
-          50: '#e6f4f8',
-          100: '#b3e4ef',
-          200: '#80d3e6',
-          500: '#00A8C9',
-          600: '#0092b0',
-          700: '#007a94',
-          800: '#005c70',
+          DEFAULT: '#e23d12',
+          50: '#fff1eb',
+          100: '#ffd9cc',
+          200: '#ffb399',
+          500: '#e23d12',
+          600: '#c4320c',
+          700: '#9a2709',
+          800: '#6e1b06',
         },
       },
+      fontFamily: {
+        sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-fraunces)', 'Georgia', 'serif'],
+      },
       boxShadow: {
-        lift: '0 20px 50px -12px rgba(0, 168, 201, 0.18)',
-        card: '0 4px 24px -4px rgba(15, 23, 42, 0.08)',
+        lift: '0 22px 50px -16px rgba(226, 61, 18, 0.35)',
+        card: '0 10px 30px -16px rgba(22, 19, 17, 0.18)',
       },
     },
   },

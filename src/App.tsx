@@ -17,10 +17,12 @@ import { PaymentTracker } from './components/admin/PaymentTracker';
 import { SettingsPage } from './pages/SettingsPage';
 import { AlumnusDashboard } from './pages/AlumnusDashboard';
 import { CandidateProfilePage } from './pages/CandidateProfilePage';
+import { canOpenNav, homeNavId, sessionRole, type AppRole } from './lib/staffAccounts';
 
 const AppContent: React.FC = () => {
-  const { user, profile, loading, isAdmin } = useAuth();
+  const { user, profile, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const role: AppRole = sessionRole(profile?.role, false);
 
   if (loading) {
     return (
@@ -40,18 +42,21 @@ const AppContent: React.FC = () => {
   }
 
   const renderContent = () => {
-    // Role-based root dashboard
-    if (activeTab === 'dashboard') {
-      if (isAdmin) {
-        return <ReportsDashboard />;
-      }
-      if (profile?.role === 'alumnus') {
-        return <AlumnusDashboard />;
-      }
-      return <CandidateDashboard />;
+    const tab = activeTab === 'dashboard' ? 'dashboard' : activeTab;
+    const allowed = tab === 'dashboard' || canOpenNav(role, tab);
+    const screen = allowed ? tab : 'dashboard';
+
+    if (screen === 'dashboard') {
+      if (role === 'alumnus') return <AlumnusDashboard />;
+      if (role === 'candidate') return <CandidateDashboard />;
+      const home = homeNavId(role);
+      if (home === 'tracker') return <CandidateTracker />;
+      if (home === 'payments') return <PaymentTracker />;
+      if (home === 'search') return <CandidateSearch />;
+      return <ReportsDashboard />;
     }
 
-    switch (activeTab) {
+    switch (screen) {
       case 'resume':
         return <ResumeBuilder />;
       case 'documents':

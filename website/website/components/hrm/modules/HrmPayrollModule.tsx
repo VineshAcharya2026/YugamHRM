@@ -81,7 +81,7 @@ const HrmPayrollModule: React.FC = () => {
         <label className="space-y-1">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Payroll Month</span>
           <input
-            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-blue-500 focus:outline-none"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-brand focus:outline-none"
             type="month"
             value={month}
             onChange={(e) => setMonth(e.target.value)}
@@ -90,7 +90,7 @@ const HrmPayrollModule: React.FC = () => {
         <button
           type="submit"
           disabled={runMutation.isPending || !apiReady}
-          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
         >
           <Play className="h-4 w-4" />
           {runMutation.isPending ? 'Running...' : 'Run Payroll'}
@@ -148,7 +148,7 @@ const HrmPayrollModule: React.FC = () => {
                     </td>
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1 text-slate-600">
-                        <CalendarClock className="h-4 w-4 text-blue-600" />
+                        <CalendarClock className="h-4 w-4 text-brand" />
                         {run.employee_count ?? 0}
                       </span>
                     </td>

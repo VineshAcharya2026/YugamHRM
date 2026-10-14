@@ -118,7 +118,7 @@ const HrmRecruitmentModule: React.FC = () => {
           <button
             type="submit"
             disabled={jobMutation.isPending || !apiReady}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
           >
             <BriefcaseBusiness className="h-4 w-4" />
             {jobMutation.isPending ? 'Creating...' : 'Create Job'}
@@ -141,7 +141,7 @@ const HrmRecruitmentModule: React.FC = () => {
           <button
             type="submit"
             disabled={candidateMutation.isPending || !apiReady}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
           >
             <UserPlus className="h-4 w-4" />
             {candidateMutation.isPending ? 'Saving...' : 'Add Candidate'}

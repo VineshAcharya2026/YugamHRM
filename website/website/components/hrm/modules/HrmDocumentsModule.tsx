@@ -158,7 +158,7 @@ const HrmDocumentsModule: React.FC = () => {
           <button
             type="submit"
             disabled={mutation.isPending || !apiReady}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
           >
             <FilePlus2 className="h-4 w-4" />
             {mutation.isPending ? 'Saving...' : 'Create Document'}
@@ -203,7 +203,7 @@ const HrmDocumentsModule: React.FC = () => {
                     <td className="px-4 py-3 text-slate-600">{row.employee_name ?? 'Company'}</td>
                     <td className="px-4 py-3 text-slate-600">{row.is_verified ? 'Yes' : 'No'}</td>
                     <td className="px-4 py-3 text-slate-600">{row.created_at}</td>
-                    <td className="px-4 py-3 text-blue-600"><a href={row.file_url} target="_blank" rel="noreferrer">Open</a></td>
+                    <td className="px-4 py-3 text-brand"><a href={row.file_url} target="_blank" rel="noreferrer">Open</a></td>
                   </tr>
                 ))
               )}

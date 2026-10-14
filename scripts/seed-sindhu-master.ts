@@ -92,7 +92,7 @@ async function main(): Promise<void> {
   const payload: Record<string, unknown> = {
     uid,
     email,
-    role: 'admin',
+    role: 'hr',
     displayName: SINDHU_MASTER_EMPLOYEE_PROFILE.fullName,
     photoURL: null,
     employeeProfile,
@@ -103,7 +103,7 @@ async function main(): Promise<void> {
   }
   await userRef.set(payload, { merge: true });
 
-  console.log(`Seeded Firestore users/${uid} (admin + employeeProfile).`);
+  console.log(`Seeded Firestore users/${uid} (hr + employeeProfile).`);
   console.log('Done. Sindhu can sign in at the HRM portal with the email above and SINDHU_MASTER_PASSWORD.');
 }
 

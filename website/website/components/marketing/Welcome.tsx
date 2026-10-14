@@ -21,14 +21,14 @@ const cards = [
 
 const Welcome: React.FC = () => {
   return (
-    <section id="about" className="border-t border-slate-100 bg-white py-20 sm:py-24 lg:py-28">
+    <section id="about" className="bg-paper py-20 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center lg:mb-16">
-          <p className="section-title">Why YugamCloud</p>
-          <h2 className="heading-display mb-4 text-balance">Designed for how tech careers actually move</h2>
+          <p className="section-title">Why Softivox Tech</p>
+          <h2 className="heading-display mb-4 text-balance">Built for people who want a real IT role</h2>
           <p className="text-lg text-slate-600">
-            Since 2012 we have focused on one thing: turning serious learners into hireable engineers and consultants — with
-            clarity, structure, and support.
+            Softivox Tech runs focused cohorts for working professionals and career switchers — labs, mentors, and
+            placement support from our Bengaluru studio.
           </p>
         </div>
 

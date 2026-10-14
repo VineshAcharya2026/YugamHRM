@@ -29,7 +29,7 @@ const FeatureShowcase: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-14 max-w-3xl text-center lg:mb-16">
           <p className="section-title">How we teach</p>
-          <h2 className="heading-display mb-4 text-balance">Powerful structure for modern tech training</h2>
+          <h2 className="heading-display mb-4 text-balance">A studio, not a slide deck</h2>
           <p className="text-lg text-slate-600">
             Clear milestones, accountable mentors, and outcomes you can measure — not just slides to sit through.
           </p>

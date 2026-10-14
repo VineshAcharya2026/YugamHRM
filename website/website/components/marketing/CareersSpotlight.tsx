@@ -29,12 +29,12 @@ const TILES = [
 
 const CareersSpotlight: React.FC = () => {
   return (
-    <section id="careers" className="py-24 md:py-28 bg-slate-50 border-y border-slate-100">
+    <section id="careers" className="border-y border-ink/10 bg-paper py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mb-14 md:mb-16">
-          <p className="text-blue-600 font-bold text-xs uppercase tracking-[0.2em] mb-3">Careers</p>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">
-            From interviews to offers — built around real employers
+          <p className="section-title">Careers</p>
+          <h2 className="heading-display mb-4">
+            From interviews to offers
           </h2>
           <p className="text-lg text-slate-600 font-medium leading-relaxed">
             High-touch preparation plus a hiring ecosystem so you are not learning in isolation.
@@ -57,7 +57,7 @@ const CareersSpotlight: React.FC = () => {
                   priority={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-90" />
-                <div className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-blue-600 shadow-sm">
+                <div className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-brand shadow-sm">
                   <tile.icon className="h-5 w-5" aria-hidden />
                 </div>
               </div>

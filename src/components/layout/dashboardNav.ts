@@ -10,6 +10,7 @@ import {
   Banknote,
   IdCard,
 } from 'lucide-react';
+import { canOpenNav, type AppRole } from '../../lib/staffAccounts';
 
 export type DashboardNavId =
   | 'dashboard'
@@ -26,7 +27,7 @@ export interface DashboardNavItem {
   label: string;
   icon: LucideIcon;
   id: DashboardNavId;
-  /** If set, only these roles (plus master) see the item. */
+  /** Informational. Visibility is decided by `canOpenNav`. */
   roles?: ('candidate' | 'alumnus' | 'admin')[];
 }
 
@@ -44,13 +45,9 @@ export const DASHBOARD_NAV_ITEMS: DashboardNavItem[] = [
 
 export function filterDashboardNavItems(
   items: DashboardNavItem[],
-  args: { role: string | undefined; isMaster: boolean },
+  args: { role: string | undefined },
 ): DashboardNavItem[] {
-  return items.filter((item) => {
-    if (!item.roles) return true;
-    if (args.isMaster) return true;
-    return item.roles.includes((args.role || 'candidate') as 'candidate' | 'alumnus' | 'admin');
-  });
+  return items.filter((item) => canOpenNav((args.role || 'candidate') as AppRole, item.id));
 }
 
 export function getDashboardNavLabel(items: DashboardNavItem[], activeId: string): string {

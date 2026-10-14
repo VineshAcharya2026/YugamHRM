@@ -3,50 +3,55 @@
 import React from 'react';
 import Link from 'next/link';
 import { SERVICES } from '@/constants';
-import { ArrowRight } from 'lucide-react';
-
-const pastelShells = [
-  'bg-sky-50 ring-sky-100/80',
-  'bg-emerald-50 ring-emerald-100/80',
-  'bg-amber-50 ring-amber-100/80',
-  'bg-rose-50 ring-rose-100/80',
-  'bg-violet-50 ring-violet-100/80',
-  'bg-cyan-50 ring-cyan-100/80',
-];
 
 const Services: React.FC = () => {
-  const featured = SERVICES.slice(0, 6);
-
   return (
-    <section id="solutions" className="border-t border-slate-100 bg-[var(--surface-muted)] py-20 sm:py-24 lg:py-28">
+    <section id="solutions" className="bg-[#f4f6fb] py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-14 max-w-3xl text-center lg:mb-16">
-          <p className="section-title">Programs</p>
-          <h2 className="heading-display mb-4 text-balance">Built for every role in your tech journey</h2>
-          <p className="text-lg text-slate-600">
-            From data platforms to AI, SAP, and cloud — pick a track that matches where you want to go next.
-          </p>
+        <div className="mb-10 max-w-2xl">
+          <p className="section-title">Courses</p>
+          <h2 className="heading-display text-3xl sm:text-4xl">Job-oriented programs</h2>
         </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((service, i) => (
-            <div
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((service) => (
+            <Link
               key={service.id}
-              className={`flex flex-col rounded-2xl p-6 ring-1 transition hover:-translate-y-0.5 hover:shadow-lift ${pastelShells[i % pastelShells.length]}`}
+              href={`/courses/${service.id}`}
+              className="flex h-full flex-col rounded-2xl bg-white p-3 shadow-[0_10px_28px_-16px_rgba(15,23,42,0.45)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-18px_rgba(15,23,42,0.4)]"
             >
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/90 text-brand shadow-sm ring-1 ring-slate-100 [&_svg]:h-6 [&_svg]:w-6 [&_svg]:!text-brand">
-                {service.icon}
+              <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-ink">
+                <video
+                  className="h-full w-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label={`${service.title} preview`}
+                >
+                  <source src={`/courses/${service.id}.mp4`} type="video/mp4" />
+                </video>
               </div>
-              <h3 className="mb-2 text-lg font-bold text-slate-900">{service.title}</h3>
-              <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-600">{service.description}</p>
-              <Link
-                href={`/courses/${service.id}`}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:text-brand-700"
-              >
-                View syllabus
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-            </div>
+              <div className="flex flex-1 flex-col px-2 pb-2 pt-3">
+                <img
+                  src="/softivox-logo.jpg"
+                  alt="Softivox Tech"
+                  className="h-8 w-auto max-w-[180px] object-contain object-left"
+                />
+                <h3 className="mt-2 text-[1.05rem] font-semibold leading-snug text-ink">{service.title}</h3>
+                <p className="mt-1 text-xs text-slate-500">
+                  {service.level} · {service.duration}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="rounded-md bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-800">
+                    {service.level}
+                  </span>
+                  <span className="rounded-md border border-sky-500 px-2 py-0.5 text-xs font-medium text-sky-700">
+                    Enroll
+                  </span>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

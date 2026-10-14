@@ -14,7 +14,7 @@ export default function HrmCandidateIntake() {
   const handleWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
     const lines = [
-      "Hi! I'd like to register interest in YugamCloud training / HRM.",
+      "Hi! I'd like to register interest in Softivox Tech training / HRM.",
       name && `Name: ${name}`,
       email && `Email: ${email}`,
       phone && `Phone: ${phone}`,
@@ -56,7 +56,7 @@ export default function HrmCandidateIntake() {
           </div>
 
           <div className="rounded-2xl border border-slate-200/90 bg-white p-8 shadow-card sm:p-10">
-            <h3 className="mb-2 text-lg font-bold text-slate-900">New to YugamCloud?</h3>
+            <h3 className="mb-2 text-lg font-bold text-slate-900">New to Softivox Tech?</h3>
             <p className="mb-6 text-sm text-slate-600">
               Share your details — we&apos;ll open WhatsApp with a prefilled message for our admissions desk (no account
               required on this page).

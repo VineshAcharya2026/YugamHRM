@@ -1,26 +1,45 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Helper functions
     function isSignedIn() {
       return request.auth != null;
     }
-    
+
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
-    
-    function getUserData() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+
+    function isPasswordSignIn() {
+      return isSignedIn() && request.auth.token.firebase.sign_in_provider == 'password';
     }
-    
-    // Master admins: full read/write; keep emails in sync with src/lib/masterAdmin.ts
-    function isAdmin() {
-      return isSignedIn() && (
-        getUserData().role == 'admin' ||
-        request.auth.token.email == 'vineshjm@gmail.com' ||
-        request.auth.token.email == 'sindhu@yugamcloud.online'
-      );
+
+    function hasProfile() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function userRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function isStaffRole(role) {
+      return isPasswordSignIn() && hasProfile() && userRole() == role;
+    }
+
+    // Legacy seeded docs used role "admin". Google sign-in is never staff.
+    function isMaster() {
+      return isStaffRole('master') || (isPasswordSignIn() && hasProfile() && userRole() == 'admin');
+    }
+
+    function canWriteCandidates() {
+      return isMaster() || isStaffRole('hr') || isStaffRole('placements');
+    }
+
+    function canReadCandidates() {
+      return canWriteCandidates() || isStaffRole('operations') || isStaffRole('accounts') || isStaffRole('support');
+    }
+
+    function canPayments() {
+      return isMaster() || isStaffRole('accounts');
     }
 
     match /{document=**} {
@@ -28,43 +47,46 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
-      allow update: if isOwner(userId) && (
-        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']) || isAdmin()
-      );
+      allow read: if isOwner(userId) || isMaster();
+      allow create: if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == 'candidate';
+      allow update: if isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']);
     }
 
     match /resumes/{resumeId} {
-      allow read: if isOwner(resource.data.userId) || isAdmin();
-      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update: if isOwner(resource.data.userId) || isAdmin();
-      allow delete: if isOwner(resource.data.userId) || isAdmin();
+      allow read: if isOwner(resource.data.userId) || canReadCandidates();
+      allow create: if (isSignedIn() && request.resource.data.userId == request.auth.uid)
+        || canWriteCandidates();
+      allow update: if isOwner(resource.data.userId) || canWriteCandidates();
+      allow delete: if isOwner(resource.data.userId) || canWriteCandidates();
     }
 
     match /documents/{docId} {
-      allow read: if isOwner(resource.data.userId) || isAdmin();
+      allow read: if isOwner(resource.data.userId) || canReadCandidates();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update: if (isOwner(resource.data.userId) || isAdmin()) && request.resource.data.userId == resource.data.userId;
-      allow delete: if isOwner(resource.data.userId) || isAdmin();
+      allow update: if (isOwner(resource.data.userId) || canWriteCandidates())
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if isOwner(resource.data.userId) || canWriteCandidates();
     }
 
     match /candidates/{candidateId} {
-      allow read: if isAdmin() || isOwner(candidateId);
-      allow create: if isAdmin() || (
+      allow read: if canReadCandidates() || isOwner(candidateId);
+      allow create: if canWriteCandidates() || (
         isOwner(candidateId) &&
         request.resource.data.userId == request.auth.uid
       );
-      allow update: if isAdmin() || (
+      allow update: if canWriteCandidates() || (
         isOwner(candidateId) &&
         resource.data.userId == request.auth.uid &&
         request.resource.data.userId == resource.data.userId
       );
-      allow delete: if isAdmin();
+      allow delete: if canWriteCandidates();
     }
 
     match /payments/{paymentId} {
-      allow read, create, update, delete: if isAdmin();
+      allow read, create, update, delete: if canPayments();
     }
 
     match /system/health {

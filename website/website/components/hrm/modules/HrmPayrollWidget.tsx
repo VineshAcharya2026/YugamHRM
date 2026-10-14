@@ -23,7 +23,7 @@ const HrmPayrollWidget: React.FC = () => {
     <article className="rounded-3xl border border-white/40 bg-white/70 p-6 backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.08)]">
       <header className="mb-4 flex items-center justify-between">
         <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500">Payroll</h4>
-        <Wallet className="h-5 w-5 text-blue-600" />
+        <Wallet className="h-5 w-5 text-brand" />
       </header>
 
       <HrmOfflineBanner token={token} />

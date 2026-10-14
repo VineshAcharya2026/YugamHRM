@@ -124,7 +124,7 @@ const HrmEmployeesModule: React.FC = () => {
           <label className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">First Name</span>
             <input
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-brand focus:outline-none"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -132,7 +132,7 @@ const HrmEmployeesModule: React.FC = () => {
           <label className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Last Name</span>
             <input
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-brand focus:outline-none"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -140,7 +140,7 @@ const HrmEmployeesModule: React.FC = () => {
           <label className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Email</span>
             <input
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-brand focus:outline-none"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -149,7 +149,7 @@ const HrmEmployeesModule: React.FC = () => {
           <label className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Phone</span>
             <input
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-900 focus:border-brand focus:outline-none"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
@@ -158,7 +158,7 @@ const HrmEmployeesModule: React.FC = () => {
             <button
               type="submit"
               disabled={createMutation.isPending || !apiReady}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-black text-white disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-black text-white disabled:opacity-60"
             >
               <UserPlus className="h-4 w-4" />
               {createMutation.isPending ? 'Saving...' : 'Create Employee'}

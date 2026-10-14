@@ -14,13 +14,15 @@ import {
   ShieldCheck,
   Zap,
   Globe,
-  Search,
   Cpu,
   Workflow
 } from 'lucide-react';
 import type { Service, Testimonial, Stat, NavItem } from '@/types';
 
-export const WHATSAPP_NUMBER = '917259354946';
+export const CONTACT_PHONE_DISPLAY = '+91 96060 11107';
+export const CONTACT_PHONE_TEL = '+919606011107';
+export const CONTACT_EMAIL = 'Info@softivoxtech.com';
+export const WHATSAPP_NUMBER = '919606011107';
 
 export const getWhatsAppLink = (message: string) => {
   const encodedMessage = encodeURIComponent(message);
@@ -36,8 +38,10 @@ export function marketingNavHref(href: string) {
 /** Training homepage path (marketing). */
 export const TRAINING_HOME_HREF = '/' as const;
 
-/** HRM app entry (Vite + Firebase) — merged under `/hrm/`. */
-export const DASHBOARD_NAV_ITEM: NavItem = { label: 'Dashboard', href: '/hrm/' };
+/** HRM app entry (Vite + Firebase) — merged under `/hrm/` in production. */
+const dashboardHref =
+  process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5173/hrm/' : '/hrm/';
+export const DASHBOARD_NAV_ITEM: NavItem = { label: 'Dashboard', href: dashboardHref };
 
 /** Footer / header navigation (in-page anchors on the marketing home + home link). */
 export const TRAINING_NAV_ITEMS: NavItem[] = [
@@ -56,7 +60,7 @@ export const SERVICES: Service[] = [
     id: 'ai-consulting',
     title: 'Agentic AI & LLMs',
     description: 'The future of AI. Build autonomous agents using LangChain and advanced LLM frameworks.',
-    icon: <BrainCircuit className="w-8 h-8 text-blue-600" />,
+    icon: <BrainCircuit className="w-8 h-8 text-brand" />,
     duration: '10 Weeks',
     level: 'Advanced',
     fullDescription: 'Master the next frontier of artificial intelligence. This course focuses on building autonomous software entities that can reason, plan, and execute tasks using LLMs. You will move beyond simple chat interfaces to sophisticated agentic workflows.',
@@ -79,7 +83,7 @@ export const SERVICES: Service[] = [
     id: 'snowflake',
     title: 'Snowflake Data Cloud',
     description: 'Master the world\'s leading cloud data platform. Architecture, loading, and analytics.',
-    icon: <Database className="w-8 h-8 text-blue-600" />,
+    icon: <Database className="w-8 h-8 text-brand" />,
     duration: '8 Weeks',
     level: 'Intermediate',
     fullDescription: 'Deep dive into the architecture that redefined data warehousing. Learn how Snowflake handles petabyte-scale data with zero management overhead, unique caching, and multi-cluster shared data architecture.',
@@ -102,7 +106,7 @@ export const SERVICES: Service[] = [
     id: 'sap-abap',
     title: 'SAP ABAP on HANA',
     description: 'Comprehensive training on SAP programming. Master RICEFW and OData services.',
-    icon: <Settings className="w-8 h-8 text-blue-600" />,
+    icon: <Settings className="w-8 h-8 text-brand" />,
     duration: '12 Weeks',
     level: 'Beginner to Pro',
     fullDescription: 'A complete end-to-end journey into the world of SAP ERP programming. We focus heavily on the S/4HANA programming model, ensuring you are ready for the modern enterprise landscape.',
@@ -125,7 +129,7 @@ export const SERVICES: Service[] = [
     id: 'fullstack',
     title: 'Java Full Stack Development',
     description: 'Master Java, Spring Boot, React, and Microservices for enterprise-scale applications.',
-    icon: <Code className="w-8 h-8 text-blue-600" />,
+    icon: <Code className="w-8 h-8 text-brand" />,
     duration: '16 Weeks',
     level: 'Beginner to Pro',
     fullDescription: 'Become a highly employable full stack developer. We bridge the gap between frontend aesthetics and backend resilience using the most popular enterprise stack: Java Spring Boot and React.',
@@ -148,7 +152,7 @@ export const SERVICES: Service[] = [
     id: 'python-ds',
     title: 'Python & Data Science',
     description: 'Data analysis, visualization, and predictive modeling using industry-standard libraries.',
-    icon: <Cpu className="w-8 h-8 text-blue-600" />,
+    icon: <Cpu className="w-8 h-8 text-brand" />,
     duration: '10 Weeks',
     level: 'Intermediate',
     fullDescription: 'Turn data into actionable insights. This course covers the entire data science pipeline, from wrangling messy datasets to building high-accuracy machine learning models.',
@@ -171,7 +175,7 @@ export const SERVICES: Service[] = [
     id: 'devops-aws',
     title: 'DevOps & AWS Cloud',
     description: 'Master CI/CD pipelines, Docker, Kubernetes, and AWS infrastructure management.',
-    icon: <Workflow className="w-8 h-8 text-blue-600" />,
+    icon: <Workflow className="w-8 h-8 text-brand" />,
     duration: '12 Weeks',
     level: 'Advanced',
     fullDescription: 'The blueprint for modern software delivery. Learn how to automate infrastructure, optimize cloud costs, and build high-availability pipelines using industry-standard DevOps tools.',
@@ -190,47 +194,16 @@ export const SERVICES: Service[] = [
       expertise: ['AWS', 'Kubernetes', 'CI/CD']
     }
   },
-  {
-    id: 'digital-marketing',
-    title: 'Digital Marketing Pro',
-    description: 'SEO, SEM, Social Media, and Analytics training to dominate the digital landscape.',
-    icon: <Search className="w-8 h-8 text-blue-600" />,
-    duration: '8 Weeks',
-    level: 'All Levels',
-    fullDescription: 'Master the art of online growth. This course is designed for entrepreneurs and professionals looking to drive traffic, convert leads, and build an unstoppable digital brand.',
-    curriculum: [
-      'Search Engine Optimization (On-page & Off-page)',
-      'Google Ads and Performance Marketing',
-      'Social Media Strategy and Brand Building',
-      'Email Marketing and Automation',
-      'Web Analytics and Reporting',
-      'Content Strategy and Copywriting'
-    ],
-    trainer: {
-      name: 'Nithin J.',
-      bio: 'Marketing Strategist who has managed over $5M in ad spend for global brands.',
-      image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&h=200&fit=crop',
-      expertise: ['SEO', 'Performance Marketing', 'Growth']
-    }
-  }
 ];
 
 export const STATS: Stat[] = [
   { label: 'Years Of Excellence', value: '13+' },
   { label: 'Students Placed', value: '20,000+' },
   { label: 'Corporate Partners', value: '150+' },
-  { label: 'Highest Package', value: '25 LPA' },
+  { label: 'Highest Package', value: '30 LPA' },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
-  {
-    id: 'nithin',
-    name: 'Nithin',
-    role: 'Digital Marketing Expert',
-    company: 'Marketing Pros',
-    content: 'I upgraded my skills with Digital Marketing training at YugamCloud.ai. The courses were clear, practical, and guided by expert trainers.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop',
-  },
   {
     id: 'swathi',
     name: 'Swathi',
@@ -244,7 +217,7 @@ export const TESTIMONIALS: Testimonial[] = [
     name: 'Rajahariharan',
     role: 'Fullstack Developer',
     company: 'Global Tech',
-    content: 'YugamCloud provided excellent Fullstack development training with practical projects. Their placement support was valuable in securing a strong role.',
+    content: 'Softivox Tech provided excellent Fullstack development training with practical projects. Their placement support was valuable in securing a strong role.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
   },
 ];
@@ -263,7 +236,7 @@ export const FAQS = [
     a: "SAP ABAP (Advanced Business Application Programming) is the high-level programming language used by SAP to develop and customize its enterprise software."
   },
   {
-    q: "How does YugamCloud.ai ensure job placements?",
+    q: "How does Softivox Tech support job placements?",
     a: "We have a dedicated 100% placement cell that provides mock interviews, resume building, and direct access to our network of 150+ hiring partners."
   },
   {

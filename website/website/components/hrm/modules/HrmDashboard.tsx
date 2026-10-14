@@ -86,10 +86,10 @@ const HrmDashboard: React.FC = () => {
                 key={module.key}
                 type="button"
                 onClick={(event) => onCardClick(module, event)}
-                className="hrm-module-card group rounded-3xl border border-white/40 bg-white/70 p-6 text-left backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(15,23,42,0.12)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="hrm-module-card group rounded-3xl border border-white/40 bg-white/70 p-6 text-left backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.08)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_45px_rgba(15,23,42,0.12)] focus:outline-none focus:ring-2 focus:ring-brand"
               >
                 <div className="mb-4 flex items-center justify-between">
-                  <div className="rounded-2xl bg-blue-50 p-3 text-blue-600">
+                  <div className="rounded-2xl bg-brand-50 p-3 text-brand">
                     <Icon className="h-5 w-5" />
                   </div>
                   <span
@@ -102,7 +102,7 @@ const HrmDashboard: React.FC = () => {
                 </div>
                 <h4 className="text-lg font-black text-slate-900">{module.title}</h4>
                 <p className="mt-2 text-sm font-medium leading-relaxed text-slate-500">{module.description}</p>
-                <div className="mt-4 flex items-center gap-2 text-sm font-bold text-blue-600">
+                <div className="mt-4 flex items-center gap-2 text-sm font-bold text-brand">
                   Open Module
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>

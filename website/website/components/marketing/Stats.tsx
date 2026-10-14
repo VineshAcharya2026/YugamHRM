@@ -3,7 +3,7 @@ import { STATS } from '@/constants';
 
 const Stats: React.FC = () => {
   return (
-    <section className="border-y border-slate-100 bg-white py-14 sm:py-16">
+    <section className="border-y border-ink/10 bg-white py-14 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 sm:gap-12 lg:grid-cols-4">
           {STATS.map((stat) => (

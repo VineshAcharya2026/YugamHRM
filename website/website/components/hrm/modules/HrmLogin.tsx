@@ -5,6 +5,7 @@ import { gsap, useGSAP } from '@/lib/gsap';
 import { z } from 'zod';
 import { hrmTapFeedback } from '@/lib/hrmMotion';
 import { LockKeyhole, ShieldCheck } from 'lucide-react';
+import { SiteBrandMark } from '@/components/SiteBrandMark';
 import { hrmGetGoogleOAuthStartUrl, hrmLogin } from '@/api/hrmAuth';
 import { HrmApiError } from '@/api/hrmClient';
 import { isHrmOfflineDemoEnabled } from '@/lib/hrmConstants';
@@ -88,20 +89,23 @@ const HrmLogin: React.FC<Props> = ({ onSuccess, oauthError }) => {
       ref={cardRef}
       className="mx-auto max-w-lg rounded-[2rem] border border-white/40 bg-white/70 p-8 backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.1)]"
     >
-      <div className="mb-6 flex items-center gap-3">
-        <div className="rounded-2xl bg-blue-100 p-3 text-blue-600">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
-        <div>
-          <h2 className="text-2xl font-black text-slate-900">HRM Login</h2>
-          <p className="text-sm font-medium text-slate-500">Secure portal access for HR operations.</p>
+      <div className="mb-6">
+        <SiteBrandMark className="mb-4 h-12" />
+        <div className="flex items-center gap-3">
+          <div className="rounded-2xl bg-brand-100 p-3 text-brand">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-slate-900">Softivox Tech HRM</h2>
+            <p className="text-sm font-medium text-slate-500">Sign in to manage people, payroll, and placements.</p>
+          </div>
         </div>
       </div>
       <form className="space-y-4" onSubmit={submitLogin}>
         <label className="block space-y-1">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Email</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition-all focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="admin@company.com"
@@ -114,7 +118,7 @@ const HrmLogin: React.FC<Props> = ({ onSuccess, oauthError }) => {
             <LockKeyhole className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
             <input
               type="password"
-              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm font-medium text-slate-900 transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm font-medium text-slate-900 transition-all focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"

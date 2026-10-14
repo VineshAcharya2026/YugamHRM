@@ -15,7 +15,8 @@
     "deploy:hosting": "firebase deploy --only hosting",
     "ship": "npm run build:hosting && npm run deploy:app",
     "enable:auth-apis": "gcloud services enable identitytoolkit.googleapis.com securetoken.googleapis.com --project=yugamcloud-e19aa",
-    "seed:sindhu": "tsx scripts/seed-sindhu-master.ts"
+    "seed:sindhu": "tsx scripts/seed-sindhu-master.ts",
+    "seed:staff": "tsx scripts/seed-staff-accounts.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

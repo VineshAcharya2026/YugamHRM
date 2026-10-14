@@ -76,7 +76,7 @@ const HrmReportsModule: React.FC = () => {
                 >
                   <div className="mb-3 flex items-center justify-between">
                     <span className="text-xs font-black uppercase tracking-widest text-slate-500">{c.label}</span>
-                    <div className="rounded-2xl bg-blue-50 p-2 text-blue-600">
+                    <div className="rounded-2xl bg-brand-50 p-2 text-brand">
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
@@ -87,7 +87,7 @@ const HrmReportsModule: React.FC = () => {
             })}
           </div>
           <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-            <BarChart3 className="h-5 w-5 text-blue-600" />
+            <BarChart3 className="h-5 w-5 text-brand" />
             Export CSV and scheduled reports can be added next; this dashboard reads live D1 aggregates.
           </div>
         </>

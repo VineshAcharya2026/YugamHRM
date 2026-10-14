@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { listCandidatesForAdmin, type CandidateRow } from '../../lib/adminFirestore';
+import { useAuth } from '../../contexts/AuthContext';
 import { Search, FileUser, ExternalLink, Mail, Phone } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatDate } from '../../lib/utils';
 
 export const CandidateSearch: React.FC = () => {
+  const { canWriteCandidates } = useAuth();
   const [candidates, setCandidates] = useState<CandidateRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -57,7 +59,9 @@ export const CandidateSearch: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-brand-fg">Talent Pool</h2>
-          <p className="text-xs font-medium opacity-40 uppercase tracking-widest mt-0.5">Directory of all registered candidates</p>
+          <p className="text-xs font-medium opacity-40 uppercase tracking-widest mt-0.5">
+            {canWriteCandidates ? 'Directory of all registered candidates' : 'View only — candidate records cannot be changed from this desk'}
+          </p>
         </div>
         <div className="relative w-full md:w-96 group">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-fg-disabled group-focus-within:text-brand-cyan transition-colors" size={18} />

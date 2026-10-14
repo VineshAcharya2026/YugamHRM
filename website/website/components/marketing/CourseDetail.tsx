@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SERVICES, getWhatsAppLink } from '@/constants';
-import { ArrowLeft, Clock, BarChart, CheckCircle, User, Award, Globe, MessageCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Clock, BarChart, CheckCircle, MessageCircle, Sparkles, ShieldCheck } from 'lucide-react';
 
 interface CourseDetailProps {
   courseId: string;
@@ -19,7 +19,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
 
   const handleWhatsApp = () => {
     if (!course) return;
-    window.open(getWhatsAppLink(`Hi! I'm interested in the ${course.title} course at YugamCloud.ai. I'd like to discuss the curriculum and next batch availability.`), '_blank');
+    window.open(getWhatsAppLink(`Hi! I'm interested in the ${course.title} course at Softivox Tech. I'd like to discuss the curriculum and next batch availability.`), '_blank');
   };
 
   if (!course) {
@@ -41,9 +41,9 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero — light shell (matches HRM marketing) */}
-      <section className="relative overflow-hidden border-b border-slate-200/80 bg-slate-50 pt-32 pb-20 sm:pt-36 sm:pb-24">
-        <div className="absolute right-0 top-0 h-[520px] w-[520px] -translate-y-1/3 translate-x-1/4 rounded-full bg-brand/10 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-[320px] w-[320px] translate-y-1/3 -translate-x-1/4 rounded-full bg-sky-200/40 blur-3xl" />
+      <section className="relative overflow-hidden border-b border-ink/10 bg-paper pt-12 pb-16 sm:pt-16">
+        <div className="absolute right-0 top-0 h-[420px] w-[420px] -translate-y-1/3 translate-x-1/4 rounded-full bg-brand/10 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-[280px] w-[280px] translate-y-1/3 -translate-x-1/4 rounded-full bg-ink/5 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <button
@@ -60,7 +60,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                 <span className="text-[10px] font-black uppercase tracking-widest text-brand-800">Elite Training Program</span>
               </div>
 
-              <h1 className="mb-8 text-5xl font-black leading-none tracking-tighter text-slate-900 lg:text-7xl">{course.title}</h1>
+              <h1 className="heading-display mb-6">{course.title}</h1>
 
               <p className="mb-10 max-w-2xl text-xl font-medium leading-relaxed text-slate-600">{course.description}</p>
 
@@ -106,7 +106,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
             {/* Main Content Column */}
             <div className="lg:col-span-8 space-y-20 animate-in fade-in duration-1000">
               <div>
-                <h2 className="text-blue-600 font-black text-xs uppercase tracking-[0.2em] mb-4">Program Overview</h2>
+                <h2 className="section-title">Program overview</h2>
                 <h3 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">Master the Skills That Matter</h3>
                 <p className="text-xl text-slate-500 leading-relaxed font-medium">
                   {course.fullDescription || "Our comprehensive curriculum is designed by industry experts to provide hands-on experience with the latest enterprise technologies."}
@@ -129,8 +129,8 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                     'Optimization & Best Practices',
                     'Mock Interviews & Career Prep'
                   ]).map((item, idx) => (
-                    <div key={idx} className="group flex items-center gap-6 p-6 bg-slate-50 rounded-[2rem] border border-transparent hover:border-blue-100 hover:bg-white hover:shadow-xl transition-all duration-300">
-                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 font-black shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    <div key={idx} className="group flex items-center gap-6 rounded-2xl border border-ink/10 bg-paper p-5 transition hover:border-brand/30 hover:bg-white">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white font-semibold text-brand shadow-sm">
                         {String(idx + 1).padStart(2, '0')}
                       </div>
                       <p className="text-slate-800 font-bold text-lg">{item}</p>
@@ -184,7 +184,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                   />
                   <div>
                     <h6 className="text-xl font-black text-slate-900 leading-none mb-2">{course.trainer?.name || "Expert Lead"}</h6>
-                    <p className="text-xs text-blue-600 font-black uppercase tracking-widest">Industry Veteran</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-brand">Industry veteran</p>
                   </div>
                 </div>
                 <p className="text-slate-500 font-medium text-sm leading-relaxed mb-8 italic">

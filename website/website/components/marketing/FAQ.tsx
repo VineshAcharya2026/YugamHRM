@@ -8,27 +8,29 @@ const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 bg-white">
+    <section id="faq" className="bg-white py-16 sm:py-20">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight">Frequently Asked Questions</h2>
+        <div className="mb-10 text-center">
+          <p className="section-title">FAQ</p>
+          <h2 className="heading-display text-3xl sm:text-4xl">Questions before you enroll</h2>
         </div>
         
         <div className="space-y-4">
           {FAQS.map((faq, idx) => (
-            <div key={idx} className="border border-slate-100 rounded-lg overflow-hidden transition-all">
-              <button 
+            <div key={idx} className="overflow-hidden rounded-2xl border border-ink/10 bg-paper">
+              <button
+                type="button"
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                className="w-full flex items-center justify-between p-6 text-left bg-slate-50 hover:bg-slate-100 transition-colors"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
               >
-                <span className="font-bold text-slate-900">{faq.q}</span>
-                {openIndex === idx ? <Minus className="w-5 h-5 text-blue-600" /> : <Plus className="w-5 h-5 text-slate-400" />}
+                <span className="font-semibold text-ink">{faq.q}</span>
+                {openIndex === idx ? <Minus className="h-5 w-5 shrink-0 text-brand" /> : <Plus className="h-5 w-5 shrink-0 text-slate-400" />}
               </button>
-              {openIndex === idx && (
-                <div className="p-6 bg-white animate-in slide-in-from-top-2 duration-300">
-                  <p className="text-slate-600 leading-relaxed font-medium">{faq.a}</p>
+              {openIndex === idx ? (
+                <div className="border-t border-ink/10 bg-white px-5 py-4">
+                  <p className="leading-relaxed text-slate-600">{faq.a}</p>
                 </div>
-              )}
+              ) : null}
             </div>
           ))}
         </div>

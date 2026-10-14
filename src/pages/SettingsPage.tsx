@@ -5,7 +5,7 @@ import { User, Shield, Monitor, LogOut, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export const SettingsPage: React.FC = () => {
-  const { user, profile, logout, isMaster, isAdmin } = useAuth();
+  const { user, profile, logout, isMaster } = useAuth();
 
   const ep = profile?.employeeProfile;
   const employeeItems = ep
@@ -43,11 +43,7 @@ export const SettingsPage: React.FC = () => {
         { label: 'Verification Status', value: user?.emailVerified ? 'Verified' : 'Pending' },
         {
           label: 'Access Level',
-          value: isMaster
-            ? 'MASTER ADMIN (full control)'
-            : isAdmin
-              ? 'ADMIN'
-              : profile?.role?.toUpperCase() || 'STANDARD',
+          value: isMaster ? 'MASTER ADMIN (full control)' : (profile?.role ?? 'candidate').toUpperCase(),
         },
       ],
     },

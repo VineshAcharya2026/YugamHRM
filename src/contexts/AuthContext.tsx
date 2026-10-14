@@ -1,19 +1,20 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getRedirectResult, onAuthStateChanged, signOut, User as FirebaseUser } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import {
-  isMasterAdminEmail,
-  resolveRoleForUser,
-  shouldSeedSindhuEmployeeProfile,
-  SINDHU_MASTER_EMPLOYEE_PROFILE,
-} from '../lib/masterAdmin';
+  isGoogleUser,
+  sessionRole,
+  canWriteCandidates,
+  canReadCandidates,
+  type AppRole,
+} from '../lib/staffAccounts';
 import type { EmployeeProfile } from '../lib/masterAdmin';
 
 export interface UserProfile {
   uid: string;
   email: string | null;
-  role: 'admin' | 'candidate' | 'alumnus';
+  role: AppRole;
   displayName: string | null;
   photoURL: string | null;
   /** HR / employee directory fields (shown in Settings & profile). */
@@ -24,10 +25,12 @@ interface AuthContextType {
   user: FirebaseUser | null;
   profile: UserProfile | null;
   loading: boolean;
-  /** HR admin tools: candidates, tracker, reports, list (same as role admin or master) */
-  isAdmin: boolean;
-  /** Super-user: full nav + all Firestore rules (master emails in `masterAdmin.ts`). */
+  /** Full control: seeded master on a password session. */
   isMaster: boolean;
+  /** Create and edit candidate records (master, HR, placements). */
+  canWriteCandidates: boolean;
+  /** Open the candidate directory. */
+  canReadCandidates: boolean;
   logout: () => Promise<void>;
 }
 
@@ -35,8 +38,9 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   loading: true,
-  isAdmin: false,
   isMaster: false,
+  canWriteCandidates: false,
+  canReadCandidates: false,
   logout: async () => {},
 });
 
@@ -52,7 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       uid: string;
       email: string | null;
       displayName: string | null;
-      role: UserProfile['role'];
+      role: AppRole;
     }) => {
       if (args.role !== 'candidate') return;
       const now = new Date().toISOString();
@@ -86,31 +90,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        const master = isMasterAdminEmail(user.email);
+        const signedInWithGoogle = isGoogleUser(user.providerData.map((provider) => provider.providerId));
         try {
           const userRef = doc(db, 'users', user.uid);
           const userDoc = await getDoc(userRef);
           if (userDoc.exists()) {
-            let data = userDoc.data() as UserProfile;
-            const role = master ? 'admin' : data.role;
-            if (master && data.role !== 'admin') {
-              await updateDoc(userRef, { role: 'admin' });
-            }
-            if (shouldSeedSindhuEmployeeProfile(user.email, data.employeeProfile)) {
-              const ep: EmployeeProfile = { ...SINDHU_MASTER_EMPLOYEE_PROFILE };
-              await updateDoc(userRef, {
-                role: 'admin',
-                displayName: SINDHU_MASTER_EMPLOYEE_PROFILE.fullName,
-                employeeProfile: ep,
-                employeeProfileUpdatedAt: new Date().toISOString(),
-              });
-              data = {
-                ...data,
-                role: 'admin',
-                displayName: SINDHU_MASTER_EMPLOYEE_PROFILE.fullName,
-                employeeProfile: ep,
-              };
-            }
+            const data = userDoc.data() as UserProfile;
+            const role = sessionRole(data.role, signedInWithGoogle);
             await upsertCandidateDoc({
               uid: user.uid,
               email: user.email,
@@ -119,25 +105,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             });
             setProfile({ ...data, role });
           } else {
-            const sindhuSeed = shouldSeedSindhuEmployeeProfile(user.email, null);
             const newProfile: UserProfile = {
               uid: user.uid,
               email: user.email,
-              role: resolveRoleForUser(user.email, 'candidate'),
-              displayName: sindhuSeed ? SINDHU_MASTER_EMPLOYEE_PROFILE.fullName : user.displayName,
+              role: 'candidate',
+              displayName: user.displayName,
               photoURL: user.photoURL,
-              employeeProfile: sindhuSeed ? { ...SINDHU_MASTER_EMPLOYEE_PROFILE } : null,
+              employeeProfile: null,
             };
             await setDoc(userRef, {
               ...newProfile,
-              ...(sindhuSeed ? { employeeProfileUpdatedAt: new Date().toISOString() } : {}),
               createdAt: new Date().toISOString(),
             });
             await upsertCandidateDoc({
               uid: user.uid,
               email: user.email,
               displayName: user.displayName,
-              role: newProfile.role,
+              role: 'candidate',
             });
             setProfile(newProfile);
           }
@@ -146,7 +130,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setProfile({
             uid: user.uid,
             email: user.email,
-            role: resolveRoleForUser(user.email, 'candidate'),
+            role: signedInWithGoogle ? 'candidate' : sessionRole(undefined, false),
             displayName: user.displayName,
             photoURL: user.photoURL,
           });
@@ -162,14 +146,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => signOut(auth);
 
-  const isMaster = useMemo(() => isMasterAdminEmail(user?.email ?? null), [user?.email]);
-  const isAdmin = useMemo(
-    () => profile?.role === 'admin' || isMaster,
-    [profile?.role, isMaster],
-  );
+  const role = profile?.role ?? 'candidate';
+  const isMaster = role === 'master';
+  const writeCandidates = canWriteCandidates(role);
+  const readCandidates = canReadCandidates(role);
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isAdmin, isMaster, logout }}>
+    <AuthContext.Provider
+      value={{ user, profile, loading, isMaster, canWriteCandidates: writeCandidates, canReadCandidates: readCandidates, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -30,7 +30,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../../lib/utils';
 
 export const CandidateTracker: React.FC = () => {
-  const { user } = useAuth();
+  const { user, canWriteCandidates } = useAuth();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -64,7 +64,7 @@ export const CandidateTracker: React.FC = () => {
     const file = e.target.files?.[0];
     e.target.value = '';
     setUploadError(null);
-    if (!file || !user) {
+    if (!file || !user || !canWriteCandidates) {
       if (!user) {
         setUploadError('You must be signed in to upload.');
       }
@@ -108,6 +108,7 @@ export const CandidateTracker: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!canWriteCandidates) return;
     setUploadError(null);
     if (!resumeUrl) {
       setUploadError('Upload a resume PDF first (wait until the green check appears).');
@@ -145,6 +146,17 @@ export const CandidateTracker: React.FC = () => {
       setLoading(false);
     }
   };
+
+  if (!canWriteCandidates) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-4 font-sans">
+        <h2 className="text-3xl font-bold tracking-tight text-brand-fg">Candidate Tracker</h2>
+        <p className="text-sm text-brand-fg-muted">
+          This desk can view candidates from the candidate list. Creating, editing, and deleting records is limited to HR, placements, and the master admin.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 font-sans pb-20 max-w-7xl mx-auto">

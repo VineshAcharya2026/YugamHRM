@@ -18,7 +18,7 @@ const AIChatAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
   const [messages, setMessages] = useState<{role: 'user' | 'bot', text: string}[]>([
-    {role: 'bot', text: 'Hi! I am Yuga, your Career Architect. I can help you navigate our elite IT programs. Which technology interests you today?'}
+    {role: 'bot', text: 'Hi, I am Vox from Softivox Tech. I can help you pick a program, compare batches, or reach admissions. Which technology are you exploring?'}
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -123,7 +123,7 @@ const AIChatAssistant: React.FC = () => {
                 <Bot className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h4 className="font-black leading-none text-slate-900">Yuga AI Advisor</h4>
+                <h4 className="font-black leading-none text-slate-900">Vox · Softivox Tech</h4>
                 <div className="mt-2 flex items-center gap-1.5">
                   <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Counseling Online</p>
@@ -198,7 +198,7 @@ const AIChatAssistant: React.FC = () => {
               </button>
             </div>
             <p className="mt-4 text-[10px] text-center text-slate-400 font-medium">
-              Powered by YugamCloud Intelligence. 100% Placement Record.
+              Softivox Tech career desk · Bengaluru
             </p>
           </div>
         </div>
