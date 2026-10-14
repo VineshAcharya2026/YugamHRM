@@ -31,7 +31,7 @@ const Testimonials: React.FC = () => {
               <div className="flex items-center gap-4 border-t border-slate-100 pt-6">
                 <img src={t.image} alt="" className="h-12 w-12 rounded-full object-cover ring-2 ring-brand-50" />
                 <div>
-                  <p className="font-bold text-slate-900">{t.name}</p>
+                  <p className="font-bold text-ink">{t.name}</p>
                   <p className="text-xs font-semibold uppercase tracking-wide text-brand">
                     {t.role} · {t.company}
                   </p>

@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/75 to-ink/35" />
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
-        <p className="section-title">Softivox Tech · Bengaluru</p>
+        <p className="section-title !text-leaf-200">Softivox Tech · Bengaluru</p>
         <h1 className="heading-display mb-4 max-w-3xl !text-white">Get an IT role, with packages up to 30 LPA</h1>
         <p className="mb-6 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
           The placement desk works with {partnerCount} hiring partners across product, consulting, and enterprise IT,
@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <ArrowRight className="h-8 w-8 shrink-0 text-brand" aria-hidden="true" />
+          <ArrowRight className="h-8 w-8 shrink-0 text-leaf-200" aria-hidden="true" />
           <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             {SERVICES.map((service) => (
               <li key={service.id}>

@@ -21,7 +21,7 @@ const IntegrationsStrip: React.FC = () => {
                 {item.name.slice(0, 1)}
               </span>
               <div>
-                <p className="text-sm font-bold text-slate-900">{item.name}</p>
+                <p className="text-sm font-bold text-ink">{item.name}</p>
                 <p className="text-xs text-slate-500">{item.detail}</p>
               </div>
             </div>

@@ -44,10 +44,10 @@ const FeatureShowcase: React.FC = () => {
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img src={b.img} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-slate-900/5 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-slate-900/5 to-transparent" />
               </div>
               <div className="p-6">
-                <h3 className="mb-2 text-lg font-bold text-slate-900 group-hover:text-brand">{b.title}</h3>
+                <h3 className="mb-2 text-lg font-bold text-ink group-hover:text-brand">{b.title}</h3>
                 <p className="text-sm text-slate-600">{b.desc}</p>
               </div>
             </Link>

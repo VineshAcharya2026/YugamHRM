@@ -40,10 +40,10 @@ const Welcome: React.FC = () => {
             >
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img src={c.img} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/20 to-transparent opacity-90" />
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="mb-2 text-lg font-bold text-slate-900">{c.title}</h3>
+                <h3 className="mb-2 text-lg font-bold text-ink">{c.title}</h3>
                 <p className="text-sm leading-relaxed text-slate-600">{c.desc}</p>
               </div>
             </article>

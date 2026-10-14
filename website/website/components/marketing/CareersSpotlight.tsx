@@ -56,13 +56,13 @@ const CareersSpotlight: React.FC = () => {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   priority={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/20 via-transparent to-transparent opacity-90" />
                 <div className="absolute bottom-4 left-4 flex h-10 w-10 items-center justify-center rounded-md bg-white/95 text-brand shadow-sm">
                   <tile.icon className="h-5 w-5" aria-hidden />
                 </div>
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-lg font-black text-slate-900 mb-2">{tile.title}</h3>
+                <h3 className="text-lg font-black text-ink mb-2">{tile.title}</h3>
                 <p className="text-sm text-slate-600 font-medium leading-relaxed">{tile.description}</p>
               </div>
             </article>

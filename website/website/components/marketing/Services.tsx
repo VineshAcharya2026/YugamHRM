@@ -6,7 +6,7 @@ import { SERVICES } from '@/constants';
 
 const Services: React.FC = () => {
   return (
-    <section id="solutions" className="bg-[#f4f6fb] py-16 sm:py-20">
+    <section id="solutions" className="bg-paper py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 max-w-2xl">
           <p className="section-title">Courses</p>
@@ -43,10 +43,10 @@ const Services: React.FC = () => {
                   {service.level} · {service.duration}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="rounded-md bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-800">
+                  <span className="rounded-md bg-brand-100 px-2 py-0.5 text-xs font-medium text-brand-800">
                     {service.level}
                   </span>
-                  <span className="rounded-md border border-sky-500 px-2 py-0.5 text-xs font-medium text-sky-700">
+                  <span className="rounded-md border border-leaf px-2 py-0.5 text-xs font-medium text-leaf">
                     Enroll
                   </span>
                 </div>

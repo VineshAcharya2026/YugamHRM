@@ -28,11 +28,11 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand">Programs</h5>
+            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-leaf">Programs</h5>
             <ul className="space-y-2">
               {SERVICES.map((course) => (
                 <li key={course.id}>
-                  <Link href={`/courses/${course.id}`} className="text-sm text-slate-700 hover:text-brand">
+                  <Link href={`/courses/${course.id}`} className="text-sm text-slate-700 hover:text-leaf">
                     {course.title}
                   </Link>
                 </li>
@@ -41,17 +41,17 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand">Company</h5>
+            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-leaf">Company</h5>
             <ul className="space-y-2">
               {TRAINING_NAV_ITEMS.filter((item) => item.href !== '/').map((item) => (
                 <li key={item.href}>
-                  <a href={marketingNavHref(item.href)} className="text-sm text-slate-700 hover:text-brand">
+                  <a href={marketingNavHref(item.href)} className="text-sm text-slate-700 hover:text-leaf">
                     {item.label}
                   </a>
                 </li>
               ))}
               <li>
-                <Link href={DASHBOARD_NAV_ITEM.href} className="text-sm text-slate-700 hover:text-brand">
+                <Link href={DASHBOARD_NAV_ITEM.href} className="text-sm text-slate-700 hover:text-leaf">
                   {DASHBOARD_NAV_ITEM.label}
                 </Link>
               </li>
@@ -59,17 +59,17 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand">Bengaluru</h5>
+            <h5 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-leaf">Bengaluru</h5>
             <ul className="space-y-3 text-sm text-slate-700">
               <li className="flex gap-2">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-brand">
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
+                <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-leaf">
                   {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
               <li className="flex gap-2">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-brand">
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
+                <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-leaf">
                   {CONTACT_EMAIL}
                 </a>
               </li>
@@ -78,13 +78,13 @@ const Footer: React.FC = () => {
                   href={getWhatsAppLink('Hi Softivox Tech, I would like to enroll.')}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-semibold text-brand hover:underline"
+                  className="font-semibold text-leaf hover:underline"
                 >
                   WhatsApp admissions
                 </a>
               </li>
               <li className="flex gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
                 <span>VRKH Building, Marathahalli</span>
               </li>
             </ul>

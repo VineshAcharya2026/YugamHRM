@@ -40,7 +40,7 @@ const Modalities: React.FC = () => {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-paper transition group-hover:bg-brand">
                 {item.icon}
               </div>
-              <h4 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h4>
+              <h4 className="text-xl font-bold text-ink mb-4">{item.title}</h4>
               <p className="text-slate-500 text-sm leading-relaxed font-medium">{item.description}</p>
             </div>
           ))}

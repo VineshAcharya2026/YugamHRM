@@ -41,7 +41,7 @@ export default function HrmCandidateIntake() {
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand text-white shadow-md">
                 <UserPlus className="h-6 w-6" aria-hidden />
               </div>
-              <h3 className="mb-2 text-xl font-bold text-slate-900">Already enrolled or have an account?</h3>
+              <h3 className="mb-2 text-xl font-bold text-ink">Already enrolled or have an account?</h3>
               <p className="mb-8 text-sm leading-relaxed text-slate-600">
                 Open the dashboard to update your candidate record, upload documents, and track your journey.
               </p>
@@ -56,7 +56,7 @@ export default function HrmCandidateIntake() {
           </div>
 
           <div className="rounded-2xl border border-slate-200/90 bg-white p-8 shadow-card sm:p-10">
-            <h3 className="mb-2 text-lg font-bold text-slate-900">New to Softivox Tech?</h3>
+            <h3 className="mb-2 text-lg font-bold text-ink">New to Softivox Tech?</h3>
             <p className="mb-6 text-sm text-slate-600">
               Share your details — we&apos;ll open WhatsApp with a prefilled message for our admissions desk (no account
               required on this page).
@@ -68,7 +68,7 @@ export default function HrmCandidateIntake() {
                 </label>
                 <input
                   id="intake-name"
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
@@ -83,7 +83,7 @@ export default function HrmCandidateIntake() {
                   <input
                     id="intake-email"
                     type="email"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
@@ -96,7 +96,7 @@ export default function HrmCandidateIntake() {
                   </label>
                   <input
                     id="intake-phone"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+91..."
@@ -110,7 +110,7 @@ export default function HrmCandidateIntake() {
                 </label>
                 <input
                   id="intake-interest"
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                   value={interest}
                   onChange={(e) => setInterest(e.target.value)}
                   placeholder="e.g. Snowflake, SAP ABAP, placement support"

@@ -10,17 +10,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: '#161311',
-        paper: '#f6f1ea',
+        ink: '#0A2E6B',
+        paper: '#F4F7FB',
         brand: {
-          DEFAULT: '#e23d12',
-          50: '#fff1eb',
-          100: '#ffd9cc',
-          200: '#ffb399',
-          500: '#e23d12',
-          600: '#c4320c',
-          700: '#9a2709',
-          800: '#6e1b06',
+          DEFAULT: '#1B6FD4',
+          50: '#EAF3FC',
+          100: '#D4E7F8',
+          200: '#A6CDF3',
+          500: '#1B6FD4',
+          600: '#155CAD',
+          700: '#104A8C',
+          800: '#0A2E6B',
+        },
+        leaf: {
+          DEFAULT: '#187A3A',
+          50: '#E8F6ED',
+          200: '#8ED9A6',
+          500: '#2E9B4F',
+          600: '#187A3A',
         },
       },
       fontFamily: {
@@ -28,8 +35,8 @@ const config: Config = {
         display: ['var(--font-fraunces)', 'Georgia', 'serif'],
       },
       boxShadow: {
-        lift: '0 22px 50px -16px rgba(226, 61, 18, 0.35)',
-        card: '0 10px 30px -16px rgba(22, 19, 17, 0.18)',
+        lift: '0 22px 50px -16px rgba(27, 111, 212, 0.35)',
+        card: '0 10px 30px -16px rgba(10, 46, 107, 0.18)',
       },
     },
   },

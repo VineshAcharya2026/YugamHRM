@@ -85,7 +85,7 @@ const ContactForm: React.FC = () => {
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">First name</label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     placeholder="First name"
                   />
                 </div>
@@ -93,7 +93,7 @@ const ContactForm: React.FC = () => {
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Last name</label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     placeholder="Last name"
                   />
                 </div>
@@ -103,7 +103,7 @@ const ContactForm: React.FC = () => {
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Email</label>
                   <input
                     type="email"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     placeholder="you@company.com"
                   />
                 </div>
@@ -111,14 +111,14 @@ const ContactForm: React.FC = () => {
                   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</label>
                   <input
                     type="text"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                     placeholder="+91"
                   />
                 </div>
               </div>
               <div>
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Program</label>
-                <select className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15">
+                <select className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15">
                   <option>Snowflake Data Warehousing</option>
                   <option>Agentic AI &amp; LLMs</option>
                   <option>SAP ABAP on HANA</option>
@@ -131,7 +131,7 @@ const ContactForm: React.FC = () => {
                 <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500">Message</label>
                 <textarea
                   rows={4}
-                  className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
+                  className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm text-ink outline-none transition focus:border-brand/40 focus:bg-white focus:ring-4 focus:ring-brand/15"
                   placeholder="Your goals, timeline, or questions…"
                 />
               </div>

@@ -38,11 +38,11 @@ const WhyChooseUs: React.FC = () => {
             </ul>
           </div>
           <div className="rounded-3xl bg-ink p-8 text-paper">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">Softivox Tech</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-leaf-200">Softivox Tech</h3>
             <ul className="mt-6 space-y-4">
               {softivox.map((item) => (
                 <li key={item} className="flex gap-3 text-sm leading-relaxed text-paper/90">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-200" />
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-leaf-200" />
                   {item}
                 </li>
               ))}

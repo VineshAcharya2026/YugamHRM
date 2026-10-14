@@ -25,7 +25,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
   if (!course) {
     return (
       <div className="pt-40 pb-20 text-center min-h-[70vh] flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-black text-slate-900 mb-4">Course not found</h2>
+        <h2 className="text-3xl font-black text-ink mb-4">Course not found</h2>
         <p className="text-slate-500 mb-8">The program you're looking for might have been updated.</p>
         <button
           type="button"
@@ -71,7 +71,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                   </div>
                   <div>
                     <p className="mb-1 text-[10px] font-black uppercase leading-none tracking-widest text-slate-500">Duration</p>
-                    <p className="font-bold text-slate-900">{course.duration}</p>
+                    <p className="font-bold text-ink">{course.duration}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -80,7 +80,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                   </div>
                   <div>
                     <p className="mb-1 text-[10px] font-black uppercase leading-none tracking-widest text-slate-500">Level</p>
-                    <p className="font-bold text-slate-900">{course.level}</p>
+                    <p className="font-bold text-ink">{course.level}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -107,7 +107,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
             <div className="lg:col-span-8 space-y-20 animate-in fade-in duration-1000">
               <div>
                 <h2 className="section-title">Program overview</h2>
-                <h3 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">Master the Skills That Matter</h3>
+                <h3 className="text-4xl font-black text-ink mb-8 tracking-tight">Master the Skills That Matter</h3>
                 <p className="text-xl text-slate-500 leading-relaxed font-medium">
                   {course.fullDescription || "Our comprehensive curriculum is designed by industry experts to provide hands-on experience with the latest enterprise technologies."}
                 </p>
@@ -115,7 +115,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
 
               <div>
                 <div className="flex items-center justify-between mb-10">
-                  <h3 className="text-3xl font-black text-slate-900 tracking-tight">Curriculum Modules</h3>
+                  <h3 className="text-3xl font-black text-ink tracking-tight">Curriculum Modules</h3>
                   <div className="px-4 py-1.5 bg-slate-100 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-500">
                     6 Integrated Modules
                   </div>
@@ -145,7 +145,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
               {/* Enrollment Card */}
               <div className="group relative overflow-hidden rounded-[2.5rem] border border-slate-200/90 bg-white p-10 shadow-xl shadow-slate-200/50">
                 <div className="relative z-10">
-                  <h4 className="mb-2 text-2xl font-black text-slate-900">Next Batch Launch</h4>
+                  <h4 className="mb-2 text-2xl font-black text-ink">Next Batch Launch</h4>
                   <p className="mb-8 text-sm font-bold uppercase tracking-widest text-slate-500">Enrollments closing soon</p>
 
                   <div className="mb-10 space-y-6">
@@ -183,7 +183,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ courseId }) => {
                     className="w-20 h-20 rounded-[1.5rem] object-cover border-2 border-slate-100"
                   />
                   <div>
-                    <h6 className="text-xl font-black text-slate-900 leading-none mb-2">{course.trainer?.name || "Expert Lead"}</h6>
+                    <h6 className="text-xl font-black text-ink leading-none mb-2">{course.trainer?.name || "Expert Lead"}</h6>
                     <p className="text-xs font-semibold uppercase tracking-widest text-brand">Industry veteran</p>
                   </div>
                 </div>
